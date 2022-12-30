@@ -376,6 +376,51 @@ public class EditMacroForm {
                 setBind(e.getKeyCode());
             }
         });
+        singleRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(singleRadioButton.isSelected()) {
+                    repeatRadioButton.setSelected(false);
+                    repeatUntilStoppedRadioButton.setSelected(false);
+                    iterationTextField.setEnabled(false);
+                    iterationTextField.setEditable(false);
+                    plusButton.setEnabled(false);
+                    minusButton.setEnabled(false);
+                }
+            }
+        });
+        repeatRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(repeatRadioButton.isSelected()) {
+                    singleRadioButton.setSelected(false);
+                    repeatUntilStoppedRadioButton.setSelected(false);
+                    iterationTextField.setEnabled(true);
+                    iterationTextField.setEditable(true);
+                    plusButton.setEnabled(true);
+                    minusButton.setEnabled(true);
+                }
+            }
+        });
+        repeatUntilStoppedRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(repeatUntilStoppedRadioButton.isSelected()) {
+                    repeatRadioButton.setSelected(false);
+                    singleRadioButton.setSelected(false);
+                    iterationTextField.setEnabled(false);
+                    iterationTextField.setEditable(false);
+                    plusButton.setEnabled(false);
+                    minusButton.setEnabled(false);
+                }
+            }
+        });
+        iterationTextField.addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                System.out.println(e.getWheelRotation());
+            }
+        });
     }
 
     public void edit(MacroInfo macro, JFrame frame, JFrame pframe) {
