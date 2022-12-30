@@ -143,7 +143,7 @@ public class MacroForm {
             Scanner reader = new Scanner(selectedFile);
             MacroInfo info = new MacroInfo(selectedFile.getName());
             while (reader.hasNextLine()) {
-                String seqItem = reader.next();
+                String seqItem = reader.nextLine();
                 SequenceItem newSeqItem = null;
                 if (seqItem.startsWith("Delay: ")) {
                     newSeqItem = new DelayItem(Integer.parseInt(seqItem.replace("Delay: ", "")));
