@@ -6,5 +6,7 @@ public enum Mode {
     DELAY,
     SINGLE,
     REPEATUNTILSTOPPED,
-    REPEAT
+    REPEAT,
+    MOVE,
+    SCROLL
 }

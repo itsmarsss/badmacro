@@ -1,8 +1,6 @@
 package src.macro;
 
-import src.macro.seqitems.DelayItem;
-import src.macro.seqitems.KeyItem;
-import src.macro.seqitems.MouseItem;
+import src.macro.seqitems.*;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -38,7 +36,7 @@ public class EditMacroForm {
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] choices = {"Delay", "KeyUp", "KeyDown", "MouseUp", "MouseDown"};
+                String[] choices = {"Delay", "KeyUp", "KeyDown", "MouseUp", "MouseDown", "MouseMove", "MouseScroll"};
                 String input = (String) JOptionPane.showInputDialog(editPanel, "Choose a sequence type",
                         "Sequence Item Type", JOptionPane.QUESTION_MESSAGE, null,
                         choices,
@@ -152,6 +150,47 @@ public class EditMacroForm {
                         } else if (mdinput.equals("Button3")) {
                             seqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN);
                         }
+                        break;
+                    case "MouseMove":
+                        int x = -1;
+                        int y = -1;
+                        try {
+                            String scoords = (String) JOptionPane.showInputDialog(editPanel, "Input move coords (x:y)",
+                                    "Move Coords", JOptionPane.QUESTION_MESSAGE, null,
+                                    null, null);
+                            if (scoords == null) {
+                                return;
+                            }
+                            String[] split = scoords.split(":");
+                            x = Integer.parseInt(split[0]);
+                            y = Integer.parseInt(split[1]);
+                        } catch (Exception ex) {
+                            x = -1;
+                        }
+                        if (x < 0) {
+                            x = -1;
+                        }
+                        if (x == -1) {
+                            JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid coords", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+                        seqItem = new MoveItem(x, y);
+                        break;
+                    case "MouseScroll":
+                        int ticks;
+                        try {
+                            String sticks = (String) JOptionPane.showInputDialog(editPanel, "Input scroll ticks (+ for up - for down)",
+                                    "Scroll Ticks", JOptionPane.QUESTION_MESSAGE, null,
+                                    null, null);
+                            if (sticks == null) {
+                                return;
+                            }
+                            ticks = Integer.parseInt(sticks);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid ticks", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+                        seqItem = new ScrollItem(ticks);
                         break;
                     default:
                         JOptionPane.showMessageDialog(editPanel, "Invalid sequence type", "Add Sequence Item", JOptionPane.WARNING_MESSAGE);
@@ -344,6 +383,45 @@ public class EditMacroForm {
                     } else if (input.equals("Button3")) {
                         newSeqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN);
                     }
+                } else if (name.contains("MouseMove: ")) {
+                    int x = -1;
+                    int y = -1;
+                    try {
+                        String scoords = (String) JOptionPane.showInputDialog(editPanel, "Input move coords (x:y)",
+                                "Move Coords", JOptionPane.QUESTION_MESSAGE, null,
+                                null, null);
+                        if (scoords == null) {
+                            return;
+                        }
+                        String[] split = scoords.split(":");
+                        x = Integer.parseInt(split[0]);
+                        y = Integer.parseInt(split[1]);
+                    } catch (Exception ex) {
+                        x = -1;
+                    }
+                    if (x < 0) {
+                        x = -1;
+                    }
+                    if (x == -1) {
+                        JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid coords", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    newSeqItem = new MoveItem(x, y);
+                } else if (name.contains("MouseScroll: ")) {
+                    int ticks;
+                    try {
+                        String sticks = (String) JOptionPane.showInputDialog(editPanel, "Input scroll ticks (+ for up - for down)",
+                                "Scroll Ticks", JOptionPane.QUESTION_MESSAGE, null,
+                                null, null);
+                        if (sticks == null) {
+                            return;
+                        }
+                        ticks = Integer.parseInt(sticks);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid ticks", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    newSeqItem = new ScrollItem(ticks);
                 } else {
                     JOptionPane.showMessageDialog(editPanel, "Invalid sequence type", "Edit Sequence Item", JOptionPane.WARNING_MESSAGE);
                     return;
