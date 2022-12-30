@@ -382,8 +382,6 @@ public class EditMacroForm {
                 if(singleRadioButton.isSelected()) {
                     repeatRadioButton.setSelected(false);
                     repeatUntilStoppedRadioButton.setSelected(false);
-                    iterationTextField.setEnabled(false);
-                    iterationTextField.setEditable(false);
                     plusButton.setEnabled(false);
                     minusButton.setEnabled(false);
                 }
@@ -395,8 +393,6 @@ public class EditMacroForm {
                 if(repeatRadioButton.isSelected()) {
                     singleRadioButton.setSelected(false);
                     repeatUntilStoppedRadioButton.setSelected(false);
-                    iterationTextField.setEnabled(true);
-                    iterationTextField.setEditable(true);
                     plusButton.setEnabled(true);
                     minusButton.setEnabled(true);
                     macro.setRun(Mode.REPEAT, 0);
@@ -409,8 +405,6 @@ public class EditMacroForm {
                 if(repeatUntilStoppedRadioButton.isSelected()) {
                     repeatRadioButton.setSelected(false);
                     singleRadioButton.setSelected(false);
-                    iterationTextField.setEnabled(false);
-                    iterationTextField.setEditable(false);
                     plusButton.setEnabled(false);
                     minusButton.setEnabled(false);
                     macro.setRun(Mode.REPEATUNTILSTOPPED, 0);
@@ -434,8 +428,8 @@ public class EditMacroForm {
         this.macro = macro;
         this.frame = frame;
         this.pframe = pframe;
-        bindTextField.setText(KeyEvent.getKeyText(macro.getBind()));
-        nameTextField.setText(
+        nameTextField.setText(macro.toString());
+        bindTextField.setText(
                 (KeyEvent.getKeyText(macro.getBind()).contains("Unknown keyCode: ") ?
                         "Unknown" : KeyEvent.getKeyText(macro.getBind())));
         sequence = new LinkedList<>(this.macro.getSequence());
