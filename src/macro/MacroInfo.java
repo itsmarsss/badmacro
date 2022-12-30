@@ -9,6 +9,10 @@ public class MacroInfo {
         this.name = name;
     }
 
+    public LinkedList<SequenceItem> getSequence() {
+        return sequence;
+    }
+
     public MacroInfo addSeqItem(int index, SequenceItem seqItem) {
         sequence.add(index, seqItem);
         return this;
@@ -17,5 +21,9 @@ public class MacroInfo {
     public MacroInfo appendSeqItem(SequenceItem seqItem) {
         sequence.addLast(seqItem);
         return this;
+    }
+
+    public String toString() {
+        return name;
     }
 }
