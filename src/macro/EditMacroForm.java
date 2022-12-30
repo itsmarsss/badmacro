@@ -390,6 +390,7 @@ public class EditMacroForm {
                     iterationTextField.setEnabled(false);
                     plusButton.setEnabled(false);
                     minusButton.setEnabled(false);
+                    macro.setRun(Mode.SINGLE, 0);
                 }
             }
         });
