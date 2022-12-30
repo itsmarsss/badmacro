@@ -399,6 +399,7 @@ public class EditMacroForm {
                     iterationTextField.setEditable(true);
                     plusButton.setEnabled(true);
                     minusButton.setEnabled(true);
+                    macro.setRun(Mode.REPEAT, 0);
                 }
             }
         });
@@ -412,13 +413,19 @@ public class EditMacroForm {
                     iterationTextField.setEditable(false);
                     plusButton.setEnabled(false);
                     minusButton.setEnabled(false);
+                    macro.setRun(Mode.REPEATUNTILSTOPPED, 0);
                 }
             }
         });
         iterationTextField.addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                System.out.println(e.getWheelRotation());
+                if(e.getWheelRotation() < 0) {
+                    iterationTextField.setText(String.valueOf(Math.max(Integer.parseInt(iterationTextField.getText()) - 1, 0)));
+                }else if(e.getWheelRotation() < 0) {
+                    iterationTextField.setText(String.valueOf(Math.min(Integer.parseInt(iterationTextField.getText()) + 1, Integer.MAX_VALUE)));
+                }
+                macro.setRun(Mode.REPEAT, Integer.parseInt(iterationTextField.getText()));
             }
         });
     }

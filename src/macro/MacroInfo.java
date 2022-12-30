@@ -7,8 +7,12 @@ public class MacroInfo {
     private String name;
     private int bind;
 
+    private Mode mode;
+    private int iteration;
+
     public MacroInfo(String name) {
         this.name = name;
+        this.mode = Mode.SINGLE;
     }
 
     public void setName(String name) {
@@ -47,5 +51,10 @@ public class MacroInfo {
 
     public void setSequence(LinkedList<SequenceItem> sequence) {
         this.sequence = sequence;
+    }
+
+    public void setRun(Mode mode, int amount) {
+        this.mode = mode;
+        iteration = amount;
     }
 }
