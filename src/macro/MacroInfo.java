@@ -40,22 +40,12 @@ public class MacroInfo {
         return sequence;
     }
 
-    public MacroInfo addSeqItem(int index, SequenceItem seqItem) {
-        sequence.add(index, seqItem);
-        return this;
-    }
-
-    public MacroInfo appendSeqItem(SequenceItem seqItem) {
+    public void appendSeqItem(SequenceItem seqItem) {
         sequence.addLast(seqItem);
-        return this;
     }
 
     public String toString() {
         return name;
-    }
-
-    public void removeSeqItem(int index) {
-        sequence.remove(index);
     }
 
     public void setSequence(LinkedList<SequenceItem> sequence) {

@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class MacroForm {
@@ -27,7 +28,7 @@ public class MacroForm {
     private JButton exportButton;
     private JLabel statusLabel;
 
-    public static LinkedList<MacroInfo> macros = new LinkedList<>();
+    public static final LinkedList<MacroInfo> macros = new LinkedList<>();
 
     public static RunSequence sequenceRunner;
     private JFrame frame;
@@ -42,20 +43,17 @@ public class MacroForm {
     }
 
     public MacroForm() {
-        newButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String path = JOptionPane.showInputDialog("Enter a name:");
-                if (path == null) {
-                    return;
-                }
-                if (path.equals("")) {
-                    JOptionPane.showMessageDialog(mainPanel, "Invalid macro name!", "New Macro", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                macros.add(new MacroInfo(path));
-                macrosList.setListData(macros.toArray());
+        newButton.addActionListener(e -> {
+            String path = JOptionPane.showInputDialog("Enter a name:");
+            if (path == null) {
+                return;
             }
+            if (path.equals("")) {
+                JOptionPane.showMessageDialog(mainPanel, "Invalid macro name!", "New Macro", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            macros.add(new MacroInfo(path));
+            macrosList.setListData(macros.toArray());
         });
         editButton.addActionListener(new ActionListener() {
             @Override
@@ -71,7 +69,7 @@ public class MacroForm {
                 editFrame.setContentPane(editMac.editPanel);
                 editMac.edit(selected, editFrame, frame);
                 editFrame.pack();
-                ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("src/assets/icon.png"));
+                ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("src/assets/icon.png")));
                 editFrame.setIconImage(icon.getImage());
                 editFrame.setResizable(false);
                 editFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -79,79 +77,64 @@ public class MacroForm {
                 frame.setEnabled(false);
             }
         });
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (macrosList.getSelectedIndex() == -1) {
-                    JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                macros.remove(macrosList.getSelectedIndex());
-                macrosList.setListData(macros.toArray());
+        deleteButton.addActionListener(e -> {
+            if (macrosList.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            macros.remove(macrosList.getSelectedIndex());
+            macrosList.setListData(macros.toArray());
+        });
+        runButton.addActionListener(e -> {
+            if (macrosList.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (sequenceRunner != null) {
+                sequenceRunner.interrupt();
+                sequenceRunner.stop();
+                sequenceRunner = null;
+                statusLabel.setText("Status: Idle");
+            }
+            sequenceRunner = new RunSequence();
+            sequenceRunner.setMacro(macros.get(macrosList.getSelectedIndex()));
+            sequenceRunner.start();
+            statusLabel.setText("Status: Running \"" + macros.get(macrosList.getSelectedIndex()) + "\"");
+        });
+        stopButton.addActionListener(e -> {
+            if (sequenceRunner != null) {
+                sequenceRunner.interrupt();
+                sequenceRunner.stop();
+                sequenceRunner = null;
+                statusLabel.setText("Status: Idle");
             }
         });
-        runButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (macrosList.getSelectedIndex() == -1) {
-                    JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                if (sequenceRunner != null) {
-                    sequenceRunner.interrupt();
-                    sequenceRunner.stop();
-                    sequenceRunner = null;
-                    statusLabel.setText("Status: Idle");
-                }
-                sequenceRunner = new RunSequence();
-                sequenceRunner.setMacro(macros.get(macrosList.getSelectedIndex()));
-                sequenceRunner.start();
-                statusLabel.setText("Status: Running \"" + macros.get(macrosList.getSelectedIndex()) + "\"");
+        exportButton.addActionListener(e -> {
+            if (macrosList.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+            JFileChooser fileChooser = new JFileChooser(".txt");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            int result = fileChooser.showOpenDialog(mainPanel);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                writeFile(selectedFile);
             }
         });
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (sequenceRunner != null) {
-                    sequenceRunner.interrupt();
-                    sequenceRunner.stop();
-                    sequenceRunner = null;
-                    statusLabel.setText("Status: Idle");
-                }
-            }
-        });
-        exportButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (macrosList.getSelectedIndex() == -1) {
-                    JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-                JFileChooser fileChooser = new JFileChooser(".txt");
-                fileChooser.setFileFilter(filter);
-                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-                int result = fileChooser.showOpenDialog(mainPanel);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    writeFile(selectedFile);
-                }
-            }
-        });
-        importButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-                JFileChooser fileChooser = new JFileChooser(".txt");
-                fileChooser.setFileFilter(filter);
-                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-                int result = fileChooser.showOpenDialog(mainPanel);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    readFile(selectedFile);
-                }
+        importButton.addActionListener(e -> {
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+            JFileChooser fileChooser = new JFileChooser(".txt");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            int result = fileChooser.showOpenDialog(mainPanel);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                readFile(selectedFile);
             }
         });
         macrosList.addMouseListener(new MouseAdapter() {
@@ -176,15 +159,19 @@ public class MacroForm {
                 } else if (seqItem.startsWith("RunType: ")) {
                     String temp = seqItem.replace("RunType: ", "");
                     String[] args = temp.split(",");
-                    if (args[0].equals("Single")) {
-                        info.setRun(Mode.SINGLE, 0);
-                    } else if (args[0].equals("RepeatUntilStopped")) {
-                        info.setRun(Mode.REPEATUNTILSTOPPED, 0);
-                    } else if (args[0].equals("Repeat")) {
-                        info.setRun(Mode.REPEAT, Integer.parseInt(args[1]));
-                    } else {
-                        JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
-                        return;
+                    switch (args[0]) {
+                        case "Single":
+                            info.setRun(Mode.SINGLE, 0);
+                            break;
+                        case "RepeatUntilStopped":
+                            info.setRun(Mode.REPEATUNTILSTOPPED, 0);
+                            break;
+                        case "Repeat":
+                            info.setRun(Mode.REPEAT, Integer.parseInt(args[1]));
+                            break;
+                        default:
+                            JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
+                            return;
                     }
                     notSeq = true;
                 } else if (seqItem.startsWith("Delay: ")) {

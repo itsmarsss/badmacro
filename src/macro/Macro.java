@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Macro {
 
-    public static MacroForm mac = new MacroForm();
+    public static final MacroForm mac = new MacroForm();
 
 
     public void startMacro(){

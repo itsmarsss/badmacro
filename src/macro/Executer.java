@@ -3,7 +3,7 @@ package src.macro;
 import java.awt.*;
 
 public class Executer {
-    public Robot rb = new Robot();
+    public final Robot rb = new Robot();
 
     public Executer() throws AWTException {
     }
