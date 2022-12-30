@@ -5,6 +5,7 @@ import com.github.kwhat.jnativehook.NativeHookException;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
 public class KeyBind implements NativeKeyListener {
@@ -23,7 +24,8 @@ public class KeyBind implements NativeKeyListener {
     public void nativeKeyReleased(NativeKeyEvent e) {
         LinkedList<MacroInfo> macros = MacroForm.macros;
         for(MacroInfo macro : macros){
-            if(macro.getBind() == e.getKeyCode()) {
+            System.out.println(macro.getBind() + " " + e.getKeyCode());
+            if(KeyEvent.getKeyText(macro.getBind()).equals(e.getKeyText(e.getKeyCode()))) {
                 if (MacroForm.sequenceRunner != null) {
                     MacroForm.sequenceRunner.interrupt();
                     MacroForm.sequenceRunner.stop();
