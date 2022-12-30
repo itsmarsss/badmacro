@@ -20,6 +20,7 @@ public class EditMacroForm {
     private JButton duplicateButton;
     public JPanel editPanel;
     private JTextField nameTextField;
+    private JTextField bindTextField;
 
     private MacroInfo macro;
     private JFrame frame;
@@ -351,13 +352,31 @@ public class EditMacroForm {
                 macro.setName(nameTextField.getText());
             }
         });
+        bindTextField.addKeyListener(new KeyAdapter() {
+
+            private void setBind(int code) {
+                macro.setBind(code);
+                String display = KeyEvent.getKeyText(macro.getBind());
+                bindTextField.setText((display.contains("Unknown keyCode: ") ? "Unknown" : display));
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                setBind(e.getKeyCode());
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                setBind(e.getKeyCode());
+            }
+        });
     }
 
     public void edit(MacroInfo macro, JFrame frame, JFrame pframe) {
         this.macro = macro;
         this.frame = frame;
         this.pframe = pframe;
-        nameTextField.setText(macro.toString());
+        bindTextField.setText(KeyEvent.getKeyText(macro.getBind()));
+        nameTextField.setText((macro.toString().contains("Unknown keyCode: ") ? "Unknown" : macro.toString()));
         sequence = new LinkedList<>(this.macro.getSequence());
         seqList.setListData(sequence.toArray());
     }

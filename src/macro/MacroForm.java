@@ -72,7 +72,7 @@ public class MacroForm {
                 }
 
                 EditMacroForm editMac = new EditMacroForm();
-                JFrame editFrame = new JFrame("Editing macro: " + selected);
+                JFrame editFrame = new JFrame("Editing macro: \"" + selected + "\"");
                 editFrame.setContentPane(editMac.editPanel);
                 editMac.edit(selected, editFrame, frame);
                 editFrame.pack();
