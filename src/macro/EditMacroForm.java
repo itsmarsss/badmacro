@@ -218,6 +218,7 @@ public class EditMacroForm {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                macro.setSequence(sequence);
                 original.setSelf(macro);
                 Macro.updateList();
                 JOptionPane.showMessageDialog(editPanel, "Macro saved!", "Save Macro", JOptionPane.INFORMATION_MESSAGE);
