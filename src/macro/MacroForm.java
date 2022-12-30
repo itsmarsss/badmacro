@@ -15,15 +15,18 @@ public class MacroForm {
     private JButton importButton;
     public JPanel mainPanel;
     private JButton exportButton;
+    private JLabel statusLabel;
 
     public LinkedList<MacroInfo> macros = new LinkedList<>();
+
+    public RunSequence sequenceRunner;
 
     public MacroForm() {
         newButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String path = JOptionPane.showInputDialog("Enter a name:");
-                if(path == null || path.equals("")){
+                if (path == null || path.equals("")) {
                     JOptionPane.showMessageDialog(mainPanel, "Invalid macro name!", "New Macro", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
@@ -35,7 +38,7 @@ public class MacroForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MacroInfo selected = (MacroInfo) macrosList.getSelectedValue();
-                if(selected == null) {
+                if (selected == null) {
                     JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
@@ -55,7 +58,7 @@ public class MacroForm {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(macrosList.getSelectedIndex() == -1) {
+                if (macrosList.getSelectedIndex() == -1) {
                     JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
@@ -66,7 +69,23 @@ public class MacroForm {
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (macrosList.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                if (sequenceRunner == null) {
+                    sequenceRunner = new RunSequence();
+                    sequenceRunner.setMacro(macros.get(macrosList.getSelectedIndex()));
+                    sequenceRunner.start();
+                    statusLabel.setText("Status: Running \"" + macros.get(macrosList.getSelectedIndex()) + "\"");
+                }
+            }
+        });
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sequenceRunner = null;
+                statusLabel.setText("Status: Idle");
             }
         });
     }
