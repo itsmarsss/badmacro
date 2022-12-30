@@ -2,6 +2,7 @@ package src.macro;
 
 import src.macro.seqitems.DelayItem;
 import src.macro.seqitems.KeyItem;
+import src.macro.seqitems.MouseItem;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -65,9 +66,9 @@ public class EditMacroForm {
                     case "KeyUp":
                         int keyUp;
                         try {
-                            keyUp = (Integer) JOptionPane.showInputDialog(editPanel, "Input key code",
+                            keyUp = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input key code",
                                     "KeyUp Key", JOptionPane.QUESTION_MESSAGE, null,
-                                    null, null);
+                                    null, null));
                         } catch (Exception x) {
                             keyUp = -1;
                         }
@@ -83,9 +84,9 @@ public class EditMacroForm {
                     case "KeyDown":
                         int keyDown;
                         try {
-                            keyDown = (Integer) JOptionPane.showInputDialog(editPanel, "Input key code",
+                            keyDown = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input key code",
                                     "KeyDown Key", JOptionPane.QUESTION_MESSAGE, null,
-                                    null, null);
+                                    null, null));
                         } catch (Exception x) {
                             keyDown = -1;
                         }
@@ -109,11 +110,11 @@ public class EditMacroForm {
                             return;
                         }
                         if(minput.equals("Button1")){
-                            seqItem = new KeyItem(MouseEvent.BUTTON1, Mode.UP);
+                            seqItem = new MouseItem(MouseEvent.BUTTON1, Mode.UP);
                         }else if(minput.equals("Button2")){
-                            seqItem = new KeyItem(MouseEvent.BUTTON2, Mode.UP);
+                            seqItem = new MouseItem(MouseEvent.BUTTON2, Mode.UP);
                         }else if(minput.equals("Button3")) {
-                            seqItem = new KeyItem(MouseEvent.BUTTON3, Mode.UP);
+                            seqItem = new MouseItem(MouseEvent.BUTTON3, Mode.UP);
                         }
                         break;
                     case "MouseDown":
@@ -127,11 +128,11 @@ public class EditMacroForm {
                             return;
                         }
                         if(mdinput.equals("Button1")){
-                            seqItem = new KeyItem(MouseEvent.BUTTON1, Mode.DOWN);
+                            seqItem = new MouseItem(MouseEvent.BUTTON1, Mode.DOWN);
                         }else if(mdinput.equals("Button2")){
-                            seqItem = new KeyItem(MouseEvent.BUTTON2, Mode.DOWN);
+                            seqItem = new MouseItem(MouseEvent.BUTTON2, Mode.DOWN);
                         }else if(mdinput.equals("Button3")) {
-                            seqItem = new KeyItem(MouseEvent.BUTTON3, Mode.DOWN);
+                            seqItem = new MouseItem(MouseEvent.BUTTON3, Mode.DOWN);
                         }
                         break;
                 }
