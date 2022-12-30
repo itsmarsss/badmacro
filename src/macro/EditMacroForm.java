@@ -48,7 +48,7 @@ public class EditMacroForm {
                     case "Delay":
                         int ans;
                         try {
-                            ans = Integer.parseInt((String)JOptionPane.showInputDialog(editPanel, "Input delay length (milliseconds)",
+                            ans = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input delay length (milliseconds)",
                                     "Delay Duration", JOptionPane.QUESTION_MESSAGE, null,
                                     null, null));
                         } catch (Exception x) {
@@ -106,14 +106,14 @@ public class EditMacroForm {
                                 mchoices,
                                 mchoices[0]);
 
-                        if(minput == null) {
+                        if (minput == null) {
                             return;
                         }
-                        if(minput.equals("Button1")){
+                        if (minput.equals("Button1")) {
                             seqItem = new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.UP);
-                        }else if(minput.equals("Button2")){
+                        } else if (minput.equals("Button2")) {
                             seqItem = new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.UP);
-                        }else if(minput.equals("Button3")) {
+                        } else if (minput.equals("Button3")) {
                             seqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.UP);
                         }
                         break;
@@ -124,17 +124,20 @@ public class EditMacroForm {
                                 mdchoices,
                                 mdchoices[0]);
 
-                        if(mdinput == null) {
+                        if (mdinput == null) {
                             return;
                         }
-                        if(mdinput.equals("Button1")){
+                        if (mdinput.equals("Button1")) {
                             seqItem = new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.DOWN);
-                        }else if(mdinput.equals("Button2")){
+                        } else if (mdinput.equals("Button2")) {
                             seqItem = new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.DOWN);
-                        }else if(mdinput.equals("Button3")) {
+                        } else if (mdinput.equals("Button3")) {
                             seqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN);
                         }
                         break;
+                    default:
+                        JOptionPane.showMessageDialog(editPanel, "Invalid sequence type", "Add Sequence Item", JOptionPane.WARNING_MESSAGE);
+                        return;
                 }
 
                 if (seqList.getSelectedIndex() == -1) {
@@ -164,13 +167,13 @@ public class EditMacroForm {
                     return;
                 }
                 int index = seqList.getSelectedIndex();
-                if(index == 0) {
+                if (index == 0) {
                     JOptionPane.showMessageDialog(editPanel, "Sequence item cannot be moved further up!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
                 SequenceItem seqItem = sequence.get(index);
                 sequence.remove(index);
-                sequence.add(index-1, seqItem);
+                sequence.add(index - 1, seqItem);
                 seqList.setListData(sequence.toArray());
             }
         });
@@ -182,13 +185,13 @@ public class EditMacroForm {
                     return;
                 }
                 int index = seqList.getSelectedIndex();
-                if(index == sequence.size()-1) {
+                if (index == sequence.size() - 1) {
                     JOptionPane.showMessageDialog(editPanel, "Sequence item cannot be moved further down!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
                 SequenceItem seqItem = sequence.get(index);
                 sequence.remove(index);
-                sequence.add(index+1, seqItem);
+                sequence.add(index + 1, seqItem);
                 seqList.setListData(sequence.toArray());
             }
         });
@@ -216,6 +219,111 @@ public class EditMacroForm {
                 SequenceItem seqItem = sequence.get(seqList.getSelectedIndex());
                 sequence.add(seqList.getSelectedIndex(), seqItem);
                 seqList.setListData(sequence.toArray());
+            }
+        });
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (seqList.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(editPanel, "Please select a sequence item!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                SequenceItem seqItem = sequence.get(seqList.getSelectedIndex());
+                String name = seqItem.toString();
+
+                SequenceItem newSeqItem = null;
+                if (name.contains("Delay: ")) {
+                    int ans;
+                    try {
+                        ans = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input delay length (milliseconds)",
+                                "Delay Duration", JOptionPane.QUESTION_MESSAGE, null,
+                                null, null));
+                    } catch (Exception x) {
+                        ans = -1;
+                    }
+                    if (ans < 1) {
+                        ans = -1;
+                    }
+                    if (ans == -1) {
+                        JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid delay", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    newSeqItem = new DelayItem(ans);
+                }else if(name.contains("KeyUp: ")){
+                    int keyUp;
+                    try {
+                        keyUp = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input key code",
+                                "KeyUp Key", JOptionPane.QUESTION_MESSAGE, null,
+                                null, null));
+                    } catch (Exception x) {
+                        keyUp = -1;
+                    }
+                    if (KeyEvent.getKeyText(keyUp).contains("Unknown keyCode: ")) {
+                        keyUp = -1;
+                    }
+                    if (keyUp == -1) {
+                        JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid keycode", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    newSeqItem = new KeyItem(keyUp, Mode.UP);
+                }else if(name.contains("KeyDown: ")){
+                    int keyDown;
+                    try {
+                        keyDown = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input key code",
+                                "KeyDown Key", JOptionPane.QUESTION_MESSAGE, null,
+                                null, null));
+                    } catch (Exception x) {
+                        keyDown = -1;
+                    }
+                    if (KeyEvent.getKeyText(keyDown).contains("Unknown keyCode: ")) {
+                        keyDown = -1;
+                    }
+                    if (keyDown == -1) {
+                        JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid keycode", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    newSeqItem = new KeyItem(keyDown, Mode.DOWN);
+                }else if(name.contains("MouseUp: ")){
+                    String[] choices = {"Button1", "Button2", "Button3"};
+                    String input = (String) JOptionPane.showInputDialog(editPanel, "Choose a button type",
+                            "Button Item Type", JOptionPane.QUESTION_MESSAGE, null,
+                            choices,
+                            choices[0]);
+
+                    if (input == null) {
+                        return;
+                    }
+                    if (input.equals("Button1")) {
+                        newSeqItem = new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.UP);
+                    } else if (input.equals("Button2")) {
+                        newSeqItem = new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.UP);
+                    } else if (input.equals("Button3")) {
+                        newSeqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.UP);
+                    }
+                }else if(name.contains("MouseDown: ")){
+                    String[] choices = {"Button1", "Button2", "Button3"};
+                    String input = (String) JOptionPane.showInputDialog(editPanel, "Choose a button type",
+                            "Button Item Type", JOptionPane.QUESTION_MESSAGE, null,
+                            choices,
+                            choices[0]);
+
+                    if (input == null) {
+                        return;
+                    }
+                    if (input.equals("Button1")) {
+                        newSeqItem = new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.DOWN);
+                    } else if (input.equals("Button2")) {
+                        newSeqItem = new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.DOWN);
+                    } else if (input.equals("Button3")) {
+                        newSeqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(editPanel, "Invalid sequence type", "Edit Sequence Item", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                int index = seqList.getSelectedIndex();
+                sequence.remove(index);
+                sequence.add(index, newSeqItem);
             }
         });
     }
