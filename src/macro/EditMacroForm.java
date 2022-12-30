@@ -427,6 +427,18 @@ public class EditMacroForm {
                 macro.setRun(Mode.REPEAT, Integer.parseInt(iterationTextField.getText()));
             }
         });
+        plusButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                iterationTextField.setText(String.valueOf(Math.min(Integer.parseInt(iterationTextField.getText()) + 1, Integer.MAX_VALUE)));
+            }
+        });
+        minusButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                iterationTextField.setText(String.valueOf(Math.max(Integer.parseInt(iterationTextField.getText()) - 1, 0)));
+            }
+        });
     }
 
     public void edit(MacroInfo macro, JFrame frame, JFrame pframe) {
