@@ -206,6 +206,18 @@ public class EditMacroForm {
                 frame.dispose();
             }
         });
+        duplicateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (seqList.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(editPanel, "Please select a sequence item!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                SequenceItem seqItem = sequence.get(seqList.getSelectedIndex());
+                sequence.add(seqList.getSelectedIndex(), seqItem);
+                seqList.setListData(sequence.toArray());
+            }
+        });
     }
 
     public void edit(MacroInfo macro, JFrame frame) {
