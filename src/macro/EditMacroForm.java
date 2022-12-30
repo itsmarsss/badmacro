@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 public class EditMacroForm {
@@ -22,6 +23,8 @@ public class EditMacroForm {
     public JPanel editPanel;
 
     private MacroInfo macro;
+    private JFrame frame;
+    private LinkedList<SequenceItem> sequence;
 
     public EditMacroForm() {
         insertButton.addActionListener(new ActionListener() {
@@ -34,7 +37,7 @@ public class EditMacroForm {
                         choices,
                         choices[0]);
 
-                if(input == null){
+                if (input == null) {
                     return;
                 }
 
@@ -44,9 +47,9 @@ public class EditMacroForm {
                     case "Delay":
                         int ans;
                         try {
-                            ans = (Integer) JOptionPane.showInputDialog(editPanel, "Input delay length (milliseconds)",
+                            ans = Integer.parseInt((String)JOptionPane.showInputDialog(editPanel, "Input delay length (milliseconds)",
                                     "Delay Duration", JOptionPane.QUESTION_MESSAGE, null,
-                                    null, null);
+                                    null, null));
                         } catch (Exception x) {
                             ans = -1;
                         }
@@ -96,54 +99,118 @@ public class EditMacroForm {
                         seqItem = new KeyItem(keyDown, Mode.DOWN);
                         break;
                     case "MouseUp":
-                        int mouseUp;
-                        try {
-                            mouseUp = (Integer) JOptionPane.showInputDialog(editPanel, "Input key code",
-                                    "KeyDown Key", JOptionPane.QUESTION_MESSAGE, null,
-                                    null, null);
-                        } catch (Exception x) {
-                            mouseUp = -1;
-                        }
-                        if (KeyEvent.getKeyText(mouseUp).contains("Unknown keyCode: ")) {
-                            mouseUp = -1;
-                        }
-                        if (mouseUp == -1) {
-                            JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid keycode", JOptionPane.WARNING_MESSAGE);
+                        String[] mchoices = {"Button1", "Button2", "Button3"};
+                        String minput = (String) JOptionPane.showInputDialog(editPanel, "Choose a button type",
+                                "Button Item Type", JOptionPane.QUESTION_MESSAGE, null,
+                                mchoices,
+                                mchoices[0]);
+
+                        if(minput == null) {
                             return;
                         }
-                        seqItem = new KeyItem(mouseUp, Mode.DOWN);
+                        if(minput.equals("Button1")){
+                            seqItem = new KeyItem(MouseEvent.BUTTON1, Mode.UP);
+                        }else if(minput.equals("Button2")){
+                            seqItem = new KeyItem(MouseEvent.BUTTON2, Mode.UP);
+                        }else if(minput.equals("Button3")) {
+                            seqItem = new KeyItem(MouseEvent.BUTTON3, Mode.UP);
+                        }
                         break;
                     case "MouseDown":
-                        int mouseDown;
-                        try {
-                            mouseDown = (Integer) JOptionPane.showInputDialog(editPanel, "Input key code",
-                                    "KeyDown Key", JOptionPane.QUESTION_MESSAGE, null,
-                                    null, null);
-                        } catch (Exception x) {
-                            mouseDown = -1;
-                        }
-                        if (KeyEvent.getKeyText(mouseDown).contains("Unknown keyCode: ")) {
-                            mouseDown = -1;
-                        }
-                        if (mouseDown == -1) {
-                            JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid keycode", JOptionPane.WARNING_MESSAGE);
+                        String[] mdchoices = {"Button1", "Button2", "Button3"};
+                        String mdinput = (String) JOptionPane.showInputDialog(editPanel, "Choose a button type",
+                                "Button Item Type", JOptionPane.QUESTION_MESSAGE, null,
+                                mdchoices,
+                                mdchoices[0]);
+
+                        if(mdinput == null) {
                             return;
                         }
-                        seqItem = new KeyItem(mouseDown, Mode.DOWN);
+                        if(mdinput.equals("Button1")){
+                            seqItem = new KeyItem(MouseEvent.BUTTON1, Mode.DOWN);
+                        }else if(mdinput.equals("Button2")){
+                            seqItem = new KeyItem(MouseEvent.BUTTON2, Mode.DOWN);
+                        }else if(mdinput.equals("Button3")) {
+                            seqItem = new KeyItem(MouseEvent.BUTTON3, Mode.DOWN);
+                        }
                         break;
                 }
 
-                if(seqList.getSelectedIndex() == -1) {
-                    macro.appendSeqItem(seqItem);
-                }else{
-                    macro.addSeqItem(seqList.getSelectedIndex(), seqItem);
+                if (seqList.getSelectedIndex() == -1) {
+                    sequence.add(seqItem);
+                } else {
+                    sequence.add(seqList.getSelectedIndex(), seqItem);
                 }
+                seqList.setListData(sequence.toArray());
+            }
+        });
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (seqList.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(editPanel, "Please select a sequence item!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                sequence.remove(seqList.getSelectedIndex());
+                seqList.setListData(sequence.toArray());
+            }
+        });
+        moveUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (seqList.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(editPanel, "Please select a sequence item!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                int index = seqList.getSelectedIndex();
+                if(index == 0) {
+                    JOptionPane.showMessageDialog(editPanel, "Sequence item cannot be moved further up!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                SequenceItem seqItem = sequence.get(index);
+                sequence.remove(index);
+                sequence.add(index-1, seqItem);
+                seqList.setListData(sequence.toArray());
+            }
+        });
+        moveDownButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (seqList.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(editPanel, "Please select a sequence item!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                int index = seqList.getSelectedIndex();
+                if(index == sequence.size()-1) {
+                    JOptionPane.showMessageDialog(editPanel, "Sequence item cannot be moved further down!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                SequenceItem seqItem = sequence.get(index);
+                sequence.remove(index);
+                sequence.add(index+1, seqItem);
+                seqList.setListData(sequence.toArray());
+            }
+        });
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                macro.setSequence(sequence);
+                JOptionPane.showMessageDialog(editPanel, "Macro saved!", "Save Macro", JOptionPane.INFORMATION_MESSAGE);
+                frame.dispose();
+            }
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
             }
         });
     }
 
-    public void edit(MacroInfo macro) {
+    public void edit(MacroInfo macro, JFrame frame) {
         this.macro = macro;
-        seqList.setListData(this.macro.getSequence().toArray());
+        this.frame = frame;
+        sequence = new LinkedList<>(this.macro.getSequence());
+        seqList.setListData(sequence.toArray());
     }
 }

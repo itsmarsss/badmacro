@@ -26,4 +26,12 @@ public class MacroInfo {
     public String toString() {
         return name;
     }
+
+    public void removeSeqItem(int index) {
+        sequence.remove(index);
+    }
+
+    public void setSequence(LinkedList<SequenceItem> sequence) {
+        this.sequence = sequence;
+    }
 }

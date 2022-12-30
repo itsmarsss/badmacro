@@ -23,6 +23,10 @@ public class MacroForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String path = JOptionPane.showInputDialog("Enter a name:");
+                if(path == null || path.equals("")){
+                    JOptionPane.showMessageDialog(mainPanel, "Invalid macro name!", "New Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
                 macros.add(new MacroInfo(path));
                 macrosList.setListData(macros.toArray());
             }
@@ -39,9 +43,9 @@ public class MacroForm {
                 deleteButton.setEnabled(false);
 
                 EditMacroForm editMac = new EditMacroForm();
-                JDialog editFrame = new JDialog();
+                JFrame editFrame = new JFrame("Editing macro: " + selected);
                 editFrame.setContentPane(editMac.editPanel);
-                editMac.edit(selected);
+                editMac.edit(selected, editFrame);
                 editFrame.pack();
                 editFrame.setDefaultCloseOperation(0);
                 editFrame.setResizable(false);
