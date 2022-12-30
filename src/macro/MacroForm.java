@@ -117,10 +117,12 @@ public class MacroForm {
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sequenceRunner.interrupt();
-                sequenceRunner.stop();
-                sequenceRunner = null;
-                statusLabel.setText("Status: Idle");
+                if (sequenceRunner != null) {
+                    sequenceRunner.interrupt();
+                    sequenceRunner.stop();
+                    sequenceRunner = null;
+                    statusLabel.setText("Status: Idle");
+                }
             }
         });
         exportButton.addActionListener(new ActionListener() {
@@ -162,7 +164,9 @@ public class MacroForm {
             while (reader.hasNextLine()) {
                 String seqItem = reader.nextLine();
                 SequenceItem newSeqItem = null;
-                if (seqItem.startsWith("Delay: ")) {
+                if (seqItem.startsWith("Bind: ")) {
+                    info.setBind(Integer.parseInt(seqItem.replace("Bind: ", "")));
+                } else if (seqItem.startsWith("Delay: ")) {
                     newSeqItem = new DelayItem(Integer.parseInt(seqItem.replace("Delay: ", "")));
                 } else if (seqItem.startsWith("KeyUp: ")) {
                     newSeqItem = new KeyItem(Integer.parseInt(seqItem.replace("KeyUp: ", "")), Mode.UP);
@@ -182,15 +186,18 @@ public class MacroForm {
             macrosList.setListData(macros.toArray());
             reader.close();
             JOptionPane.showMessageDialog(mainPanel, "Successfully imported macro!", "Import Macro", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
+
     }
 
     private void writeFile(File selectedFile) {
         try {
             FileWriter writer = new FileWriter(selectedFile);
+            writer.write("Bind: " + macros.get(macrosList.getSelectedIndex()).getBind());
             for (SequenceItem seqItem : macros.get(macrosList.getSelectedIndex()).getSequence()) {
                 writer.write(seqItem.toString());
             }

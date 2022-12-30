@@ -21,6 +21,12 @@ public class EditMacroForm {
     public JPanel editPanel;
     private JTextField nameTextField;
     private JTextField bindTextField;
+    private JRadioButton singleRadioButton;
+    private JRadioButton repeatUntilStoppedRadioButton;
+    private JRadioButton repeatRadioButton;
+    private JFormattedTextField iterationTextField;
+    private JButton plusButton;
+    private JButton minusButton;
 
     private MacroInfo macro;
     private JFrame frame;
@@ -50,7 +56,7 @@ public class EditMacroForm {
                             String sans = (String) JOptionPane.showInputDialog(editPanel, "Input delay length (milliseconds)",
                                     "Delay Duration", JOptionPane.QUESTION_MESSAGE, null,
                                     null, null);
-                            if(sans == null) {
+                            if (sans == null) {
                                 return;
                             }
                             ans = Integer.parseInt(sans);
@@ -72,7 +78,7 @@ public class EditMacroForm {
                             String skeyUp = (String) JOptionPane.showInputDialog(editPanel, "Input key code",
                                     "KeyUp Key", JOptionPane.QUESTION_MESSAGE, null,
                                     null, null);
-                            if(skeyUp == null) {
+                            if (skeyUp == null) {
                                 return;
                             }
                             keyUp = Integer.parseInt(skeyUp);
@@ -94,7 +100,7 @@ public class EditMacroForm {
                             String skeyDown = (String) JOptionPane.showInputDialog(editPanel, "Input key code",
                                     "KeyDown Key", JOptionPane.QUESTION_MESSAGE, null,
                                     null, null);
-                            if(skeyDown == null) {
+                            if (skeyDown == null) {
                                 return;
                             }
                             keyDown = Integer.parseInt(skeyDown);
@@ -364,6 +370,7 @@ public class EditMacroForm {
             public void keyPressed(KeyEvent e) {
                 setBind(e.getKeyCode());
             }
+
             @Override
             public void keyReleased(KeyEvent e) {
                 setBind(e.getKeyCode());
@@ -376,7 +383,9 @@ public class EditMacroForm {
         this.frame = frame;
         this.pframe = pframe;
         bindTextField.setText(KeyEvent.getKeyText(macro.getBind()));
-        nameTextField.setText((macro.toString().contains("Unknown keyCode: ") ? "Unknown" : macro.toString()));
+        nameTextField.setText(
+                (KeyEvent.getKeyText(macro.getBind()).contains("Unknown keyCode: ") ?
+                        "Unknown" : KeyEvent.getKeyText(macro.getBind())));
         sequence = new LinkedList<>(this.macro.getSequence());
         seqList.setListData(sequence.toArray());
     }
