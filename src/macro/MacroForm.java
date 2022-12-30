@@ -63,5 +63,11 @@ public class MacroForm {
                 macrosList.setListData(macros.toArray());
             }
         });
+        runButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 }

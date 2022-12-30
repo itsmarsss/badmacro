@@ -15,4 +15,8 @@ public class MouseItem extends SequenceItem {
     public String toString() {
         return (mode == Mode.UP ? "MouseUp: " : "MouseDown: ") + MouseEvent.getMouseModifiersText(mouseNum);
     }
+
+    public int getValue() {
+        return mouseNum;
+    }
 }

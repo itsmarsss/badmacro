@@ -16,4 +16,8 @@ public class KeyItem extends SequenceItem {
     public String toString() {
         return (mode == Mode.UP ? "KeyUp: " : "KeyDown: ") + KeyEvent.getKeyText(keyNum);
     }
+
+    public int getValue() {
+        return keyNum;
+    }
 }
