@@ -166,6 +166,18 @@ public class MacroForm {
                 SequenceItem newSeqItem = null;
                 if (seqItem.startsWith("Bind: ")) {
                     info.setBind(Integer.parseInt(seqItem.replace("Bind: ", "")));
+                } else if (seqItem.startsWith("RunType: ")) {
+                    String temp = seqItem.replace("RunType: ", "");
+                    String[] args = temp.split("|");
+                    if (args[0].equals("Single")) {
+                        info.setRun(Mode.SINGLE, 0);
+                    } else if (args[0].equals("RepeatUntilStopped")) {
+                        info.setRun(Mode.REPEATUNTILSTOPPED, 0);
+                    } else if (args[0].equals("Repeat")) {
+                        info.setRun(Mode.REPEAT, Integer.parseInt(args[1]));
+                    } else {
+                        JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else if (seqItem.startsWith("Delay: ")) {
                     newSeqItem = new DelayItem(Integer.parseInt(seqItem.replace("Delay: ", "")));
                 } else if (seqItem.startsWith("KeyUp: ")) {
@@ -198,6 +210,15 @@ public class MacroForm {
         try {
             FileWriter writer = new FileWriter(selectedFile);
             writer.write("Bind: " + macros.get(macrosList.getSelectedIndex()).getBind());
+            Mode mode = macros.get(macrosList.getSelectedIndex()).getRunType();
+            if(mode == Mode.SINGLE) {
+                writer.write("RunType: Single|");
+            }else if(mode == Mode.SINGLE) {
+                writer.write("RunType: RepeatUntilStopped|");
+            }else if(mode == Mode.SINGLE) {
+                int iter = macros.get(macrosList.getSelectedIndex()).getRunIter();
+                writer.write("RunType: Repeat|" + iter);
+            }
             for (SequenceItem seqItem : macros.get(macrosList.getSelectedIndex()).getSequence()) {
                 writer.write(seqItem.toString());
             }

@@ -57,4 +57,12 @@ public class MacroInfo {
         this.mode = mode;
         iteration = amount;
     }
+
+    public int getRunIter() {
+        return iteration;
+    }
+
+    public Mode getRunType() {
+        return mode;
+    }
 }
