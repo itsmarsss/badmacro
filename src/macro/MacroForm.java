@@ -121,9 +121,9 @@ public class MacroForm {
                 }
             }
         });
-        importButton.addChangeListener(new ChangeListener() {
+        importButton.addActionListener(new ActionListener() {
             @Override
-            public void stateChanged(ChangeEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
                 JFileChooser fileChooser = new JFileChooser(".txt");
                 fileChooser.setFileFilter(filter);
