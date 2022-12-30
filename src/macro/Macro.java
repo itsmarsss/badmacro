@@ -3,8 +3,11 @@ package src.macro;
 import javax.swing.*;
 
 public class Macro {
+
+    public static MacroForm mac = new MacroForm();
+
+
     public void startMacro(){
-        MacroForm mac = new MacroForm();
         JFrame frame = new JFrame("Bad Macro");
         mac.setParent(frame);
         frame.setContentPane(mac.mainPanel);
@@ -15,4 +18,13 @@ public class Macro {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+
+    public static void setStatus(String status) {
+        mac.setStatus(status);
+    }
+
+    public static void updateList() {
+        mac.updateList();
+    }
+
 }

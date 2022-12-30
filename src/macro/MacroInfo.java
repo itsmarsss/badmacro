@@ -5,8 +5,22 @@ import java.util.LinkedList;
 public class MacroInfo {
     private LinkedList<SequenceItem> sequence = new LinkedList<>();
     private String name;
+    private int bind;
+
     public MacroInfo(String name) {
         this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBind(int bind) {
+        this.bind = bind;
+    }
+
+    public int getBind() {
+        return bind;
     }
 
     public LinkedList<SequenceItem> getSequence() {

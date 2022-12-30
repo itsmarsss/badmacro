@@ -1,5 +1,7 @@
 package src.macro;
 
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
 import src.macro.seqitems.DelayItem;
 import src.macro.seqitems.KeyItem;
 import src.macro.seqitems.MouseItem;
@@ -30,10 +32,19 @@ public class MacroForm {
     private JButton exportButton;
     private JLabel statusLabel;
 
-    public LinkedList<MacroInfo> macros = new LinkedList<>();
+    public static LinkedList<MacroInfo> macros = new LinkedList<>();
 
-    public RunSequence sequenceRunner;
+    public static RunSequence sequenceRunner;
     private JFrame frame;
+
+    void setStatus(String status) {
+        statusLabel.setText(status);
+    }
+
+
+    public void updateList() {
+        macrosList.setListData(macros.toArray());
+    }
 
     public MacroForm() {
         newButton.addActionListener(new ActionListener() {
@@ -91,12 +102,16 @@ public class MacroForm {
                     JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-                if (sequenceRunner == null) {
-                    sequenceRunner = new RunSequence();
-                    sequenceRunner.setMacro(macros.get(macrosList.getSelectedIndex()));
-                    sequenceRunner.start();
-                    statusLabel.setText("Status: Running \"" + macros.get(macrosList.getSelectedIndex()) + "\"");
+                if (sequenceRunner != null) {
+                    sequenceRunner.interrupt();
+                    sequenceRunner.stop();
+                    sequenceRunner = null;
+                    statusLabel.setText("Status: Idle");
                 }
+                sequenceRunner = new RunSequence();
+                sequenceRunner.setMacro(macros.get(macrosList.getSelectedIndex()));
+                sequenceRunner.start();
+                statusLabel.setText("Status: Running \"" + macros.get(macrosList.getSelectedIndex()) + "\"");
             }
         });
         stopButton.addActionListener(new ActionListener() {
@@ -172,10 +187,11 @@ public class MacroForm {
             e.printStackTrace();
         }
     }
+
     private void writeFile(File selectedFile) {
         try {
             FileWriter writer = new FileWriter(selectedFile);
-            for(SequenceItem seqItem : macros.get(macrosList.getSelectedIndex()).getSequence()){
+            for (SequenceItem seqItem : macros.get(macrosList.getSelectedIndex()).getSequence()) {
                 writer.write(seqItem.toString());
             }
             writer.close();
@@ -188,5 +204,15 @@ public class MacroForm {
 
     public void setParent(JFrame frame) {
         this.frame = frame;
+        try {
+            GlobalScreen.registerNativeHook();
+        } catch (NativeHookException ex) {
+            System.err.println("There was a problem registering the native hook.");
+            System.err.println(ex.getMessage());
+
+            System.exit(1);
+        }
+
+        GlobalScreen.addNativeKeyListener(new KeyBind());
     }
 }

@@ -5,10 +5,7 @@ import src.macro.seqitems.KeyItem;
 import src.macro.seqitems.MouseItem;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.LinkedList;
 
 public class EditMacroForm {
@@ -22,6 +19,7 @@ public class EditMacroForm {
     private JButton editButton;
     private JButton duplicateButton;
     public JPanel editPanel;
+    private JTextField nameTextField;
 
     private MacroInfo macro;
     private JFrame frame;
@@ -213,6 +211,7 @@ public class EditMacroForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 macro.setSequence(sequence);
+                Macro.updateList();
                 JOptionPane.showMessageDialog(editPanel, "Macro saved!", "Save Macro", JOptionPane.INFORMATION_MESSAGE);
                 pframe.setEnabled(true);
                 frame.dispose();
@@ -345,12 +344,20 @@ public class EditMacroForm {
                 seqList.setListData(sequence.toArray());
             }
         });
+
+        nameTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                macro.setName(nameTextField.getText());
+            }
+        });
     }
 
     public void edit(MacroInfo macro, JFrame frame, JFrame pframe) {
         this.macro = macro;
         this.frame = frame;
         this.pframe = pframe;
+        nameTextField.setText(macro.toString());
         sequence = new LinkedList<>(this.macro.getSequence());
         seqList.setListData(sequence.toArray());
     }
