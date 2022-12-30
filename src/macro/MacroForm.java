@@ -234,7 +234,6 @@ public class MacroForm {
             writer.write("\n");
             for (SequenceItem seqItem : macros.get(macrosList.getSelectedIndex()).getSequence()) {
                 writer.write(seqItem.toExport());
-                System.out.println(seqItem.getValue());
                 writer.write("\n");
             }
             writer.close();

@@ -15,6 +15,15 @@ public class MacroInfo {
         this.mode = Mode.SINGLE;
     }
 
+    public MacroInfo(MacroInfo macro) {
+        sequence = new LinkedList<>(macro.getSequence());
+        name = macro.name;
+        bind = macro.bind;
+
+        mode = macro.mode;
+        iteration = macro.iteration;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -64,5 +73,14 @@ public class MacroInfo {
 
     public Mode getRunType() {
         return mode;
+    }
+
+    public void setSelf(MacroInfo macro) {
+        sequence = new LinkedList<>(macro.getSequence());
+        name = macro.name;
+        bind = macro.bind;
+
+        mode = macro.mode;
+        iteration = macro.iteration;
     }
 }
