@@ -168,8 +168,10 @@ public class MacroForm {
             while (reader.hasNextLine()) {
                 String seqItem = reader.nextLine();
                 SequenceItem newSeqItem = null;
+                boolean notSeq = false;
                 if (seqItem.startsWith("Bind: ")) {
                     info.setBind(Integer.parseInt(seqItem.replace("Bind: ", "")));
+                    notSeq = true;
                 } else if (seqItem.startsWith("RunType: ")) {
                     String temp = seqItem.replace("RunType: ", "");
                     String[] args = temp.split(",");
@@ -182,7 +184,9 @@ public class MacroForm {
                         info.setRun(Mode.REPEAT, Integer.parseInt(args[1]));
                     } else {
                         JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
+                    notSeq = true;
                 } else if (seqItem.startsWith("Delay: ")) {
                     newSeqItem = new DelayItem(Integer.parseInt(seqItem.replace("Delay: ", "")));
                 } else if (seqItem.startsWith("KeyUp: ")) {
@@ -197,7 +201,9 @@ public class MacroForm {
                     JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                info.appendSeqItem(newSeqItem);
+                if(!notSeq) {
+                    info.appendSeqItem(newSeqItem);
+                }
             }
             macros.add(info);
             macrosList.setListData(macros.toArray());

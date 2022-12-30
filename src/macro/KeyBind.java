@@ -10,7 +10,6 @@ import java.util.LinkedList;
 
 public class KeyBind implements NativeKeyListener {
     public void nativeKeyPressed(NativeKeyEvent e) {
-        System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 
         if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
             try {
@@ -23,9 +22,8 @@ public class KeyBind implements NativeKeyListener {
 
     public void nativeKeyReleased(NativeKeyEvent e) {
         LinkedList<MacroInfo> macros = MacroForm.macros;
-        for(MacroInfo macro : macros){
-            System.out.println(macro.getBind() + " " + e.getKeyCode());
-            if(KeyEvent.getKeyText(macro.getBind()).equals(e.getKeyText(e.getKeyCode()))) {
+        for (MacroInfo macro : macros) {
+            if (KeyEvent.getKeyText(macro.getBind()).equals(e.getKeyText(e.getKeyCode()))) {
                 if (MacroForm.sequenceRunner != null) {
                     MacroForm.sequenceRunner.interrupt();
                     MacroForm.sequenceRunner.stop();
@@ -41,6 +39,5 @@ public class KeyBind implements NativeKeyListener {
     }
 
     public void nativeKeyTyped(NativeKeyEvent e) {
-        System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
     }
 }

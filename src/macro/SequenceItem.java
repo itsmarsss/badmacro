@@ -7,7 +7,7 @@ public class SequenceItem {
     }
 
     public String toString(){
-        return null;
+        return "Error";
     }
 
     public int getValue(){
@@ -15,6 +15,6 @@ public class SequenceItem {
     }
 
     public String toExport() {
-        return null;
+        return "Error";
     }
 }
