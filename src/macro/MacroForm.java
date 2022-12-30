@@ -13,6 +13,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -159,6 +161,16 @@ public class MacroForm {
                 }
             }
         });
+        macrosList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (macrosList.getSelectedIndex() == 0) {
+                    deleteButton.setEnabled(false);
+                } else {
+                    deleteButton.setEnabled(true);
+                }
+            }
+        });
     }
 
     private void readFile(File selectedFile) {
@@ -201,7 +213,7 @@ public class MacroForm {
                     JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if(!notSeq) {
+                if (!notSeq) {
                     info.appendSeqItem(newSeqItem);
                 }
             }
@@ -254,7 +266,12 @@ public class MacroForm {
 
             System.exit(1);
         }
-
         GlobalScreen.addNativeKeyListener(new KeyBind());
+
+        MacroInfo killkey = new MacroInfo("<html><font color=red><b>KILLKEY</b></font></html>");
+        killkey.setBind(119);
+        killkey.setRun(Mode.SINGLE, 0);
+        macros.add(killkey);
+        macrosList.setListData(macros.toArray());
     }
 }
