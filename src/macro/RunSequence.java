@@ -14,13 +14,32 @@ public class RunSequence extends Thread {
     public void run() {
 
         System.out.println(macro);
+
+        LinkedList<SequenceItem> sequence = new LinkedList<>(macro.getSequence());
+        Mode runType = macro.getRunType();
+        if (runType == Mode.SINGLE) {
+            start(sequence);
+        } else if (runType == Mode.REPEAT) {
+            for (int i = 0; i < macro.getRunIter(); i++) {
+                start(sequence);
+            }
+        } else if (runType == Mode.REPEATUNTILSTOPPED) {
+            while (true) {
+                start(sequence);
+            }
+        }
+        this.interrupt();
+        this.stop();
+    }
+
+    private void start(LinkedList<SequenceItem> seq) {
         Executer ex;
         try {
             ex = new Executer();
         } catch (AWTException e) {
             return;
         }
-        LinkedList<SequenceItem> sequence = new LinkedList<>(macro.getSequence());
+        LinkedList<SequenceItem> sequence = new LinkedList<>(seq);
         while (!sequence.isEmpty()) {
             SequenceItem seqItem = sequence.pop();
             String name = seqItem.toString();
