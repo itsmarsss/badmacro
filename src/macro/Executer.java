@@ -21,4 +21,12 @@ public class Executer {
     public void mouseUp(int mouseNum) {
         rb.mouseRelease(mouseNum);
     }
+
+    public void mouseMove(int[] coords) {
+        rb.mouseMove(coords[0], coords[1]);
+    }
+
+    public void mouseScroll(int value) {
+        rb.mouseWheel(value);
+    }
 }
