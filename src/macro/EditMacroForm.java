@@ -175,6 +175,7 @@ public class EditMacroForm {
                 sequence.remove(index);
                 sequence.add(index - 1, seqItem);
                 seqList.setListData(sequence.toArray());
+                seqList.setSelectedIndex(index - 1);
             }
         });
         moveDownButton.addActionListener(new ActionListener() {
@@ -193,6 +194,7 @@ public class EditMacroForm {
                 sequence.remove(index);
                 sequence.add(index + 1, seqItem);
                 seqList.setListData(sequence.toArray());
+                seqList.setSelectedIndex(index + 1);
             }
         });
         saveButton.addActionListener(new ActionListener() {
@@ -218,7 +220,9 @@ public class EditMacroForm {
                 }
                 SequenceItem seqItem = sequence.get(seqList.getSelectedIndex());
                 sequence.add(seqList.getSelectedIndex(), seqItem);
+                int index = seqList.getSelectedIndex();
                 seqList.setListData(sequence.toArray());
+                seqList.setSelectedIndex(index);
             }
         });
         editButton.addActionListener(new ActionListener() {
@@ -249,7 +253,7 @@ public class EditMacroForm {
                         return;
                     }
                     newSeqItem = new DelayItem(ans);
-                }else if(name.contains("KeyUp: ")){
+                } else if (name.contains("KeyUp: ")) {
                     int keyUp;
                     try {
                         keyUp = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input key code",
@@ -266,7 +270,7 @@ public class EditMacroForm {
                         return;
                     }
                     newSeqItem = new KeyItem(keyUp, Mode.UP);
-                }else if(name.contains("KeyDown: ")){
+                } else if (name.contains("KeyDown: ")) {
                     int keyDown;
                     try {
                         keyDown = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input key code",
@@ -283,7 +287,7 @@ public class EditMacroForm {
                         return;
                     }
                     newSeqItem = new KeyItem(keyDown, Mode.DOWN);
-                }else if(name.contains("MouseUp: ")){
+                } else if (name.contains("MouseUp: ")) {
                     String[] choices = {"Button1", "Button2", "Button3"};
                     String input = (String) JOptionPane.showInputDialog(editPanel, "Choose a button type",
                             "Button Item Type", JOptionPane.QUESTION_MESSAGE, null,
@@ -300,7 +304,7 @@ public class EditMacroForm {
                     } else if (input.equals("Button3")) {
                         newSeqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.UP);
                     }
-                }else if(name.contains("MouseDown: ")){
+                } else if (name.contains("MouseDown: ")) {
                     String[] choices = {"Button1", "Button2", "Button3"};
                     String input = (String) JOptionPane.showInputDialog(editPanel, "Choose a button type",
                             "Button Item Type", JOptionPane.QUESTION_MESSAGE, null,
@@ -317,7 +321,7 @@ public class EditMacroForm {
                     } else if (input.equals("Button3")) {
                         newSeqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN);
                     }
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(editPanel, "Invalid sequence type", "Edit Sequence Item", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
