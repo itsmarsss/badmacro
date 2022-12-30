@@ -33,6 +33,8 @@ public class MacroForm {
     public static RunSequence sequenceRunner;
     private JFrame frame;
 
+    public static boolean isRunning = false;
+
     void setStatus(String status) {
         statusLabel.setText(status);
     }
@@ -91,7 +93,6 @@ public class MacroForm {
                 return;
             }
             if (sequenceRunner != null) {
-                sequenceRunner.interrupt();
                 sequenceRunner.stop();
                 sequenceRunner = null;
                 statusLabel.setText("Status: Idle");
@@ -103,7 +104,6 @@ public class MacroForm {
         });
         stopButton.addActionListener(e -> {
             if (sequenceRunner != null) {
-                sequenceRunner.interrupt();
                 sequenceRunner.stop();
                 sequenceRunner = null;
                 statusLabel.setText("Status: Idle");

@@ -18,18 +18,21 @@ public class RunSequence extends Thread {
         LinkedList<SequenceItem> sequence = new LinkedList<>(macro.getSequence());
         Mode runType = macro.getRunType();
         if (runType == Mode.SINGLE) {
+            System.out.println("Single");
             start(sequence);
         } else if (runType == Mode.REPEAT) {
+            System.out.println("Repeat");
             for (int i = 0; i < macro.getRunIter(); i++) {
                 start(sequence);
             }
         } else if (runType == Mode.REPEATUNTILSTOPPED) {
+            System.out.println("RepeatUntilStopped");
             while (true) {
                 start(sequence);
             }
         }
         Macro.setStatus("Status: Idle");
-        this.interrupt();
+        MacroForm.isRunning = false;
         this.stop();
     }
 
@@ -45,10 +48,10 @@ public class RunSequence extends Thread {
             SequenceItem seqItem = sequence.pop();
             String name = seqItem.toString();
             if (name.startsWith("Delay: ")) {
-                try {
-                    Thread.sleep(seqItem.getValue());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                int sleep = seqItem.getValue();
+                long start = System.currentTimeMillis();
+                while(System.currentTimeMillis()-start < sleep) {
+                    System.out.print("");
                 }
                 System.out.println("sleep");
             } else if (name.startsWith("KeyUp: ")) {

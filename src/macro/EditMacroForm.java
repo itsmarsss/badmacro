@@ -431,6 +431,7 @@ public class EditMacroForm {
                 macro.setBind(code);
                 String display = KeyEvent.getKeyText(macro.getBind());
                 if (display.equals("Backspace")) {
+                    macro.setBind(-1);
                     bindTextField.setText("N/A");
                 } else {
                     bindTextField.setText((display.contains("Unknown keyCode: ") ? "Unknown" : display));

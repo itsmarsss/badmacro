@@ -8,7 +8,6 @@ public class ScrollItem extends SequenceItem {
 
     public ScrollItem(int amount) {
         this.amount = amount;
-        Mode mode = Mode.SCROLL;
     }
 
     public String toString() {

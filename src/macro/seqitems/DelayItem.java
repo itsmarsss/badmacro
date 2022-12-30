@@ -8,7 +8,6 @@ public class DelayItem extends SequenceItem {
 
     public DelayItem(int waitDur) {
         this.waitDur = waitDur;
-        Mode mode = Mode.DELAY;
     }
 
     public String toString() {

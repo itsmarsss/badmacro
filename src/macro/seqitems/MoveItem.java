@@ -10,7 +10,6 @@ public class MoveItem extends SequenceItem {
     public MoveItem(int x, int y) {
         this.x = x;
         this.y = y;
-        Mode mode = Mode.MOVE;
     }
 
     public String toString() {
