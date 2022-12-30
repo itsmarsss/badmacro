@@ -63,6 +63,12 @@ public class RunSequence extends Thread {
             } else if (name.startsWith("MouseDown: ")) {
                 ex.mouseDown(seqItem.getValue());
                 System.out.println("mousedown");
+            } else if (name.startsWith("MouseMove: ")) {
+                ex.mouseMove(seqItem.getValues());
+                System.out.println("mousemove");
+            } else if (name.startsWith("MouseScroll: ")) {
+                ex.mouseScroll(seqItem.getValue());
+                System.out.println("mousescroll");
             } else {
                 System.out.println("???");
             }
