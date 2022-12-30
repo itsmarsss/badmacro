@@ -24,7 +24,7 @@ public class EditMacroForm {
     private JRadioButton singleRadioButton;
     private JRadioButton repeatUntilStoppedRadioButton;
     private JRadioButton repeatRadioButton;
-    private JFormattedTextField iterationTextField;
+    private JTextField iterationTextField;
     private JButton plusButton;
     private JButton minusButton;
 
@@ -218,6 +218,7 @@ public class EditMacroForm {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                macro.setName(nameTextField.getText());
                 macro.setSequence(sequence);
                 original.setSelf(macro);
                 Macro.updateList();
@@ -354,12 +355,6 @@ public class EditMacroForm {
             }
         });
 
-        nameTextField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                macro.setName(nameTextField.getText());
-            }
-        });
         bindTextField.addKeyListener(new KeyAdapter() {
 
             private void setBind(int code) {
