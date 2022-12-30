@@ -324,6 +324,7 @@ public class EditMacroForm {
                 int index = seqList.getSelectedIndex();
                 sequence.remove(index);
                 sequence.add(index, newSeqItem);
+                seqList.setListData(sequence.toArray());
             }
         });
     }
