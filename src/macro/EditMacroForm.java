@@ -363,7 +363,11 @@ public class EditMacroForm {
             private void setBind(int code) {
                 macro.setBind(code);
                 String display = KeyEvent.getKeyText(macro.getBind());
-                bindTextField.setText((display.contains("Unknown keyCode: ") ? "Unknown" : display));
+                if(display.equals("Backspace")) {
+                    bindTextField.setText("N/A");
+                }else {
+                    bindTextField.setText((display.contains("Unknown keyCode: ") ? "Unknown" : display));
+                }
             }
 
             @Override
@@ -431,7 +435,7 @@ public class EditMacroForm {
         nameTextField.setText(macro.toString());
         bindTextField.setText(
                 (KeyEvent.getKeyText(macro.getBind()).contains("Unknown keyCode: ") ?
-                        "Unknown" : KeyEvent.getKeyText(macro.getBind())));
+                        "N/A" : KeyEvent.getKeyText(macro.getBind())));
         sequence = new LinkedList<>(this.macro.getSequence());
         seqList.setListData(sequence.toArray());
     }

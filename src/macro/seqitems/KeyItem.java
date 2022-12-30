@@ -20,4 +20,8 @@ public class KeyItem extends SequenceItem {
     public int getValue() {
         return keyNum;
     }
+
+    public String toExport() {
+        return (mode == Mode.UP ? "KeyUp: " : "KeyDown: ") + keyNum;
+    }
 }

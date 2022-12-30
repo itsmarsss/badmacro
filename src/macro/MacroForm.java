@@ -219,8 +219,10 @@ public class MacroForm {
                 int iter = macros.get(macrosList.getSelectedIndex()).getRunIter();
                 writer.write("RunType: Repeat|" + iter);
             }
+            writer.write("\n");
             for (SequenceItem seqItem : macros.get(macrosList.getSelectedIndex()).getSequence()) {
-                writer.write(seqItem.toString());
+                writer.write(seqItem.toExport());
+                writer.write("\n");
             }
             writer.close();
             JOptionPane.showMessageDialog(mainPanel, "Successfully exported macro!", "Export Macro", JOptionPane.INFORMATION_MESSAGE);

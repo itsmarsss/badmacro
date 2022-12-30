@@ -13,4 +13,8 @@ public class SequenceItem {
     public int getValue(){
         return -1;
     }
+
+    public String toExport() {
+        return null;
+    }
 }

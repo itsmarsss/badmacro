@@ -194,6 +194,7 @@
             <properties>
               <editable value="false"/>
               <enabled value="false"/>
+              <text value="0"/>
             </properties>
           </component>
           <component id="f7b51" class="javax.swing.JButton" binding="plusButton">

@@ -19,4 +19,8 @@ public class DelayItem extends SequenceItem {
     public int getValue() {
         return waitDur;
     }
+
+    public String toExport() {
+        return "Delay: " + waitDur;
+    }
 }
