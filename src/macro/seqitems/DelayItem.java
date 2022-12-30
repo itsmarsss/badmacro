@@ -4,12 +4,11 @@ import src.macro.Mode;
 import src.macro.SequenceItem;
 
 public class DelayItem extends SequenceItem {
-    private int waitDur;
-    private Mode mode;
+    private final int waitDur;
 
     public DelayItem(int waitDur) {
         this.waitDur = waitDur;
-        this.mode = Mode.DELAY;
+        Mode mode = Mode.DELAY;
     }
 
     public String toString() {

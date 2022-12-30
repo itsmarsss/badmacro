@@ -6,8 +6,8 @@ import src.macro.SequenceItem;
 import java.awt.event.KeyEvent;
 
 public class KeyItem extends SequenceItem {
-    private int keyNum;
-    private Mode mode;
+    private final int keyNum;
+    private final Mode mode;
     public KeyItem(int keyNum, Mode mode) {
         this.keyNum = keyNum;
         this.mode = mode;

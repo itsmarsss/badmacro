@@ -24,7 +24,7 @@ public class KeyBind implements NativeKeyListener {
         LinkedList<MacroInfo> macros = MacroForm.macros;
         int i = 0;
         for (MacroInfo macro : macros) {
-            if (KeyEvent.getKeyText(macro.getBind()).equals(e.getKeyText(e.getKeyCode()))) {
+            if (KeyEvent.getKeyText(macro.getBind()).equals(NativeKeyEvent.getKeyText(e.getKeyCode()))) {
                 if (MacroForm.sequenceRunner != null) {
                     MacroForm.sequenceRunner.interrupt();
                     MacroForm.sequenceRunner.stop();

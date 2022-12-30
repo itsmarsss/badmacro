@@ -1,6 +1,7 @@
 package src.macro;
 
 import javax.swing.*;
+import java.util.Objects;
 
 public class Macro {
 
@@ -13,7 +14,7 @@ public class Macro {
         frame.setContentPane(mac.mainPanel);
         frame.pack();
         frame.setResizable(false);
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("src/assets/icon.png"));
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("src/assets/icon.png")));
         frame.setIconImage(icon.getImage());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);

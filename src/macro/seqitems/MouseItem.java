@@ -6,8 +6,8 @@ import src.macro.SequenceItem;
 import java.awt.event.MouseEvent;
 
 public class MouseItem extends SequenceItem {
-    private int mouseNum;
-    private Mode mode;
+    private final int mouseNum;
+    private final Mode mode;
 
     public MouseItem(int mouseNum, Mode mode) {
         this.mouseNum = mouseNum;

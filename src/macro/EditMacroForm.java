@@ -152,7 +152,7 @@ public class EditMacroForm {
                         }
                         break;
                     case "MouseMove":
-                        int x = -1;
+                        int x;
                         int y = -1;
                         try {
                             String scoords = (String) JOptionPane.showInputDialog(editPanel, "Input move coords (x:y)",
@@ -384,7 +384,7 @@ public class EditMacroForm {
                         newSeqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN);
                     }
                 } else if (name.contains("MouseMove: ")) {
-                    int x = -1;
+                    int x;
                     int y = -1;
                     try {
                         String scoords = (String) JOptionPane.showInputDialog(editPanel, "Input move coords (x:y)",
