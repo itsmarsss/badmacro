@@ -36,10 +36,16 @@ public class MacroForm {
                     return;
                 }
 
+                deleteButton.setEnabled(false);
+
                 EditMacroForm editMac = new EditMacroForm();
-                JFrame editFrame = new JFrame("Edit Macro");
+                JDialog editFrame = new JDialog();
                 editFrame.setContentPane(editMac.editPanel);
                 editMac.edit(selected);
+                editFrame.pack();
+                editFrame.setDefaultCloseOperation(0);
+                editFrame.setResizable(false);
+                editFrame.setVisible(true);
             }
         });
     }

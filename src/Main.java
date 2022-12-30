@@ -1,7 +1,6 @@
 package src;
 
-import src.macro.MacroForm;
-import src.macro.seqitems.Macro;
+import src.macro.Macro;
 
 import javax.swing.*;
 

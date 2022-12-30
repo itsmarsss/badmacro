@@ -6,8 +6,8 @@ import src.macro.SequenceItem;
 public class DelayItem extends SequenceItem {
     private int waitDur;
     private Mode mode;
-    public DelayItem(int waitDur, Mode mode) {
+    public DelayItem(int waitDur) {
         this.waitDur = waitDur;
-        this.mode = mode;
+        this.mode = Mode.DELAY;
     }
 }

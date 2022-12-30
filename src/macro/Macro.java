@@ -1,4 +1,4 @@
-package src.macro.seqitems;
+package src.macro;
 
 import src.macro.MacroForm;
 
@@ -12,5 +12,6 @@ public class Macro {
         frame.pack();
         frame.setResizable(false);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
