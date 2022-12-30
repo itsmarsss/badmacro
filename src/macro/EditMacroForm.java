@@ -110,11 +110,11 @@ public class EditMacroForm {
                             return;
                         }
                         if(minput.equals("Button1")){
-                            seqItem = new MouseItem(MouseEvent.BUTTON1, Mode.UP);
+                            seqItem = new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.UP);
                         }else if(minput.equals("Button2")){
-                            seqItem = new MouseItem(MouseEvent.BUTTON2, Mode.UP);
+                            seqItem = new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.UP);
                         }else if(minput.equals("Button3")) {
-                            seqItem = new MouseItem(MouseEvent.BUTTON3, Mode.UP);
+                            seqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.UP);
                         }
                         break;
                     case "MouseDown":
@@ -128,11 +128,11 @@ public class EditMacroForm {
                             return;
                         }
                         if(mdinput.equals("Button1")){
-                            seqItem = new MouseItem(MouseEvent.BUTTON1, Mode.DOWN);
+                            seqItem = new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.DOWN);
                         }else if(mdinput.equals("Button2")){
-                            seqItem = new MouseItem(MouseEvent.BUTTON2, Mode.DOWN);
+                            seqItem = new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.DOWN);
                         }else if(mdinput.equals("Button3")) {
-                            seqItem = new MouseItem(MouseEvent.BUTTON3, Mode.DOWN);
+                            seqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN);
                         }
                         break;
                 }
