@@ -28,9 +28,9 @@ public class RunSequence extends Thread {
                 start(sequence);
             }
         }
+        Macro.setStatus("Status: Idle");
         this.interrupt();
         this.stop();
-        Macro.setStatus("Status: Idle");
     }
 
     private void start(LinkedList<SequenceItem> seq) {

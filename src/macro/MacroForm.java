@@ -268,7 +268,7 @@ public class MacroForm {
         }
         GlobalScreen.addNativeKeyListener(new KeyBind());
 
-        MacroInfo killkey = new MacroInfo("KILLKEY");
+        MacroInfo killkey = new MacroInfo("<html><font color=red><b>KILLKEY</b></font></html>");
         killkey.setBind(119);
         killkey.setRun(Mode.SINGLE, 0);
         macros.add(killkey);
