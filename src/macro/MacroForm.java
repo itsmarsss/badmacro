@@ -102,6 +102,8 @@ public class MacroForm {
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                sequenceRunner.interrupt();
+                sequenceRunner.stop();
                 sequenceRunner = null;
                 statusLabel.setText("Status: Idle");
             }
