@@ -52,5 +52,16 @@ public class MacroForm {
                 editFrame.setVisible(true);
             }
         });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(macrosList.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                macros.remove(macrosList.getSelectedIndex());
+                macrosList.setListData(macros.toArray());
+            }
+        });
     }
 }
