@@ -15,7 +15,7 @@ public class MoveItem extends SequenceItem {
     }
 
     public String toString() {
-        return "MouseMove: " + x + ":" + "y";
+        return "MouseMove: " + x + ":" + y;
     }
 
     public int[] getValues() {

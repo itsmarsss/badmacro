@@ -2,9 +2,7 @@ package src.macro;
 
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
-import src.macro.seqitems.DelayItem;
-import src.macro.seqitems.KeyItem;
-import src.macro.seqitems.MouseItem;
+import src.macro.seqitems.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -187,7 +185,6 @@ public class MacroForm {
                 } else if (seqItem.startsWith("RunType: ")) {
                     String temp = seqItem.replace("RunType: ", "");
                     String[] args = temp.split(",");
-                    System.out.println(args[0] + " " + args[1]);
                     if (args[0].equals("Single")) {
                         info.setRun(Mode.SINGLE, 0);
                     } else if (args[0].equals("RepeatUntilStopped")) {
@@ -209,6 +206,12 @@ public class MacroForm {
                     newSeqItem = new MouseItem(Integer.parseInt(seqItem.replace("MouseUp: ", "")), Mode.UP);
                 } else if (seqItem.startsWith("MouseDown: ")) {
                     newSeqItem = new MouseItem(Integer.parseInt(seqItem.replace("MouseDown: ", "")), Mode.DOWN);
+                } else if (seqItem.startsWith("MouseMove: ")) {
+                    String temp = seqItem.replace("MouseMove: ", "");
+                    String[] args = temp.split(":");
+                    newSeqItem = new MoveItem(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+                } else if (seqItem.startsWith("MouseScroll: ")) {
+                    newSeqItem = new ScrollItem(Integer.parseInt(seqItem.replace("MouseScroll: ", "")));
                 } else {
                     JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
                     return;
