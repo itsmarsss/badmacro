@@ -1,9 +1,20 @@
 package src.macro;
 
+import src.macro.seqitems.DelayItem;
+import src.macro.seqitems.KeyItem;
+import src.macro.seqitems.MouseItem;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class MacroForm {
     private JList macrosList;
@@ -93,6 +104,66 @@ public class MacroForm {
                 statusLabel.setText("Status: Idle");
             }
         });
+        exportButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+                JFileChooser fileChooser = new JFileChooser(".txt");
+                fileChooser.setFileFilter(filter);
+                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+                int result = fileChooser.showOpenDialog(mainPanel);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    writeFile(selectedFile);
+                }
+            }
+        });
+    }
+
+    private void readFile(File selectedFile) {
+        try {
+            Scanner reader = new Scanner(selectedFile);
+            MacroInfo info = new MacroInfo(selectedFile.getName());
+            while (reader.hasNextLine()) {
+                String seqItem = reader.next();
+                SequenceItem newSeqItem = null;
+                if (seqItem.startsWith("Delay: ")) {
+                    newSeqItem = new DelayItem(Integer.parseInt(seqItem.replace("Delay: ", "")));
+                } else if (seqItem.startsWith("KeyUp: ")) {
+                    newSeqItem = new KeyItem(Integer.parseInt(seqItem.replace("KeyUp: ", "")), Mode.UP);
+                } else if (seqItem.startsWith("KeyDown: ")) {
+                    newSeqItem = new KeyItem(Integer.parseInt(seqItem.replace("KeyDown: ", "")), Mode.DOWN);
+                } else if (seqItem.startsWith("MouseUp: ")) {
+                    newSeqItem = new MouseItem(Integer.parseInt(seqItem.replace("MouseUp: ", "")), Mode.UP);
+                } else if (seqItem.startsWith("MouseDown: ")) {
+                    newSeqItem = new MouseItem(Integer.parseInt(seqItem.replace("MouseDown: ", "")), Mode.DOWN);
+                } else {
+                    throw new Exception("Invalid value");
+                }
+                info.appendSeqItem(newSeqItem);
+            }
+            macros.add(info);
+            macrosList.setListData(macros.toArray());
+            reader.close();
+            JOptionPane.showMessageDialog(mainPanel, "Successfully imported macro!", "Import Macro", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+    private void writeFile(File selectedFile) {
+        try {
+            FileWriter writer = new FileWriter(selectedFile);
+            for(SequenceItem seqItem : macros.get(macrosList.getSelectedIndex()).getSequence()){
+                writer.write(seqItem.toString());
+            }
+            writer.close();
+            JOptionPane.showMessageDialog(mainPanel, "Successfully exported macro!", "Export Macro", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(mainPanel, "Error occurred during exporting macro!", "Export Macro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
 
     public void setParent(JFrame frame) {

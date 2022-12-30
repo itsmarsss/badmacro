@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[]args) {
         setLooksAndFeels();
         Macro mac = new Macro();
-        mac.Macro();
+        mac.startMacro();
     }
 
     private static void setLooksAndFeels() {
