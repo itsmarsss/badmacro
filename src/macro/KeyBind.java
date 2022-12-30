@@ -22,6 +22,7 @@ public class KeyBind implements NativeKeyListener {
 
     public void nativeKeyReleased(NativeKeyEvent e) {
         LinkedList<MacroInfo> macros = MacroForm.macros;
+        int i = 0;
         for (MacroInfo macro : macros) {
             if (KeyEvent.getKeyText(macro.getBind()).equals(e.getKeyText(e.getKeyCode()))) {
                 if (MacroForm.sequenceRunner != null) {
@@ -33,8 +34,13 @@ public class KeyBind implements NativeKeyListener {
                 MacroForm.sequenceRunner = new RunSequence();
                 MacroForm.sequenceRunner.setMacro(macro);
                 MacroForm.sequenceRunner.start();
-                Macro.setStatus("Status: Running \"" + macro + "\"");
+                if (i == 0) {
+                    Macro.setStatus("Status: Terminating...");
+                } else {
+                    Macro.setStatus("Status: Running \"" + macro + "\"");
+                }
             }
+            i++;
         }
     }
 

@@ -30,6 +30,7 @@ public class RunSequence extends Thread {
         }
         this.interrupt();
         this.stop();
+        Macro.setStatus("Status: Idle");
     }
 
     private void start(LinkedList<SequenceItem> seq) {
