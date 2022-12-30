@@ -128,6 +128,10 @@ public class MacroForm {
         exportButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (macrosList.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(mainPanel, "Please select a macro!", "Edit Macro", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
                 JFileChooser fileChooser = new JFileChooser(".txt");
                 fileChooser.setFileFilter(filter);
@@ -168,7 +172,8 @@ public class MacroForm {
                     info.setBind(Integer.parseInt(seqItem.replace("Bind: ", "")));
                 } else if (seqItem.startsWith("RunType: ")) {
                     String temp = seqItem.replace("RunType: ", "");
-                    String[] args = temp.split("|");
+                    String[] args = temp.split(",");
+                    System.out.println(args[0] + " " + args[1]);
                     if (args[0].equals("Single")) {
                         info.setRun(Mode.SINGLE, 0);
                     } else if (args[0].equals("RepeatUntilStopped")) {
@@ -210,18 +215,20 @@ public class MacroForm {
         try {
             FileWriter writer = new FileWriter(selectedFile);
             writer.write("Bind: " + macros.get(macrosList.getSelectedIndex()).getBind());
+            writer.write("\n");
             Mode mode = macros.get(macrosList.getSelectedIndex()).getRunType();
-            if(mode == Mode.SINGLE) {
-                writer.write("RunType: Single|");
-            }else if(mode == Mode.SINGLE) {
-                writer.write("RunType: RepeatUntilStopped|");
-            }else if(mode == Mode.SINGLE) {
+            if (mode == Mode.SINGLE) {
+                writer.write("RunType: Single,0");
+            } else if (mode == Mode.REPEATUNTILSTOPPED) {
+                writer.write("RunType: RepeatUntilStopped,0");
+            } else if (mode == Mode.REPEAT) {
                 int iter = macros.get(macrosList.getSelectedIndex()).getRunIter();
-                writer.write("RunType: Repeat|" + iter);
+                writer.write("RunType: Repeat," + iter);
             }
             writer.write("\n");
             for (SequenceItem seqItem : macros.get(macrosList.getSelectedIndex()).getSequence()) {
                 writer.write(seqItem.toExport());
+                System.out.println(seqItem.getValue());
                 writer.write("\n");
             }
             writer.close();

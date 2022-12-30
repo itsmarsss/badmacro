@@ -386,6 +386,7 @@ public class EditMacroForm {
                 if(singleRadioButton.isSelected()) {
                     repeatRadioButton.setSelected(false);
                     repeatUntilStoppedRadioButton.setSelected(false);
+                    iterationTextField.setEnabled(false);
                     plusButton.setEnabled(false);
                     minusButton.setEnabled(false);
                 }
@@ -397,6 +398,7 @@ public class EditMacroForm {
                 if(repeatRadioButton.isSelected()) {
                     singleRadioButton.setSelected(false);
                     repeatUntilStoppedRadioButton.setSelected(false);
+                    iterationTextField.setEnabled(true);
                     plusButton.setEnabled(true);
                     minusButton.setEnabled(true);
                     macro.setRun(Mode.REPEAT, 0);
@@ -409,6 +411,7 @@ public class EditMacroForm {
                 if(repeatUntilStoppedRadioButton.isSelected()) {
                     repeatRadioButton.setSelected(false);
                     singleRadioButton.setSelected(false);
+                    iterationTextField.setEnabled(false);
                     plusButton.setEnabled(false);
                     minusButton.setEnabled(false);
                     macro.setRun(Mode.REPEATUNTILSTOPPED, 0);
@@ -418,9 +421,10 @@ public class EditMacroForm {
         iterationTextField.addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
+                System.out.println(e.getWheelRotation());
                 if(e.getWheelRotation() < 0) {
                     iterationTextField.setText(String.valueOf(Math.max(Integer.parseInt(iterationTextField.getText()) - 1, 0)));
-                }else if(e.getWheelRotation() < 0) {
+                }else if(e.getWheelRotation() > 0) {
                     iterationTextField.setText(String.valueOf(Math.min(Integer.parseInt(iterationTextField.getText()) + 1, Integer.MAX_VALUE)));
                 }
                 macro.setRun(Mode.REPEAT, Integer.parseInt(iterationTextField.getText()));
@@ -436,6 +440,20 @@ public class EditMacroForm {
         bindTextField.setText(
                 (KeyEvent.getKeyText(macro.getBind()).contains("Unknown keyCode: ") ?
                         "N/A" : KeyEvent.getKeyText(macro.getBind())));
+        iterationTextField.setText(String.valueOf(macro.getRunIter()));
+        if(macro.getRunType() == Mode.SINGLE) {
+            singleRadioButton.setSelected(true);
+            repeatUntilStoppedRadioButton.setSelected(false);
+            repeatRadioButton.setSelected(false);
+        }else if(macro.getRunType() == Mode.REPEATUNTILSTOPPED) {
+            singleRadioButton.setSelected(false);
+            repeatUntilStoppedRadioButton.setSelected(true);
+            repeatRadioButton.setSelected(false);
+        }else if(macro.getRunType() == Mode.REPEAT) {
+            singleRadioButton.setSelected(false);
+            repeatUntilStoppedRadioButton.setSelected(false);
+            repeatRadioButton.setSelected(true);
+        }
         sequence = new LinkedList<>(this.macro.getSequence());
         seqList.setListData(sequence.toArray());
     }
