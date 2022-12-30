@@ -10,7 +10,9 @@ public class Macro {
         frame.setContentPane(mac.mainPanel);
         frame.pack();
         frame.setResizable(false);
-        frame.setVisible(true);
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("src/assets/icon.png"));
+        frame.setIconImage(icon.getImage());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 }

@@ -60,15 +60,15 @@ public class MacroForm {
                     return;
                 }
 
-                deleteButton.setEnabled(false);
-
                 EditMacroForm editMac = new EditMacroForm();
                 JFrame editFrame = new JFrame("Editing macro: " + selected);
                 editFrame.setContentPane(editMac.editPanel);
                 editMac.edit(selected, editFrame, frame);
                 editFrame.pack();
-                editFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("src/assets/icon.png"));
+                editFrame.setIconImage(icon.getImage());
                 editFrame.setResizable(false);
+                editFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                 editFrame.setVisible(true);
                 frame.setEnabled(false);
             }
