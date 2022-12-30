@@ -33,7 +33,7 @@ public class KeyBind implements NativeKeyListener {
             MacroForm.sequenceRunner.start();
             Macro.setStatus("Status: Terminating...");
         }
-        if (MacroForm.isRunning = false) {
+        if (MacroForm.isRunning) {
             return;
         }
         LinkedList<MacroInfo> macros = MacroForm.macros;
