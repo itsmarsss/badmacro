@@ -25,13 +25,13 @@ public class EditMacroForm {
 
     private MacroInfo macro;
     private JFrame frame;
+    private JFrame pframe;
     private LinkedList<SequenceItem> sequence;
 
     public EditMacroForm() {
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int index = seqList.getSelectedIndex();
                 String[] choices = {"Delay", "KeyUp", "KeyDown", "MouseUp", "MouseDown"};
                 String input = (String) JOptionPane.showInputDialog(editPanel, "Choose a sequence type",
                         "Sequence Item Type", JOptionPane.QUESTION_MESSAGE, null,
@@ -48,9 +48,13 @@ public class EditMacroForm {
                     case "Delay":
                         int ans;
                         try {
-                            ans = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input delay length (milliseconds)",
+                            String sans = (String) JOptionPane.showInputDialog(editPanel, "Input delay length (milliseconds)",
                                     "Delay Duration", JOptionPane.QUESTION_MESSAGE, null,
-                                    null, null));
+                                    null, null);
+                            if(sans == null) {
+                                return;
+                            }
+                            ans = Integer.parseInt(sans);
                         } catch (Exception x) {
                             ans = -1;
                         }
@@ -66,9 +70,13 @@ public class EditMacroForm {
                     case "KeyUp":
                         int keyUp;
                         try {
-                            keyUp = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input key code",
+                            String skeyUp = (String) JOptionPane.showInputDialog(editPanel, "Input key code",
                                     "KeyUp Key", JOptionPane.QUESTION_MESSAGE, null,
-                                    null, null));
+                                    null, null);
+                            if(skeyUp == null) {
+                                return;
+                            }
+                            keyUp = Integer.parseInt(skeyUp);
                         } catch (Exception x) {
                             keyUp = -1;
                         }
@@ -84,9 +92,13 @@ public class EditMacroForm {
                     case "KeyDown":
                         int keyDown;
                         try {
-                            keyDown = Integer.parseInt((String) JOptionPane.showInputDialog(editPanel, "Input key code",
+                            String skeyDown = (String) JOptionPane.showInputDialog(editPanel, "Input key code",
                                     "KeyDown Key", JOptionPane.QUESTION_MESSAGE, null,
-                                    null, null));
+                                    null, null);
+                            if(skeyDown == null) {
+                                return;
+                            }
+                            keyDown = Integer.parseInt(skeyDown);
                         } catch (Exception x) {
                             keyDown = -1;
                         }
@@ -202,12 +214,14 @@ public class EditMacroForm {
             public void actionPerformed(ActionEvent e) {
                 macro.setSequence(sequence);
                 JOptionPane.showMessageDialog(editPanel, "Macro saved!", "Save Macro", JOptionPane.INFORMATION_MESSAGE);
+                pframe.setEnabled(true);
                 frame.dispose();
             }
         });
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                pframe.setEnabled(true);
                 frame.dispose();
             }
         });
@@ -333,9 +347,10 @@ public class EditMacroForm {
         });
     }
 
-    public void edit(MacroInfo macro, JFrame frame) {
+    public void edit(MacroInfo macro, JFrame frame, JFrame pframe) {
         this.macro = macro;
         this.frame = frame;
+        this.pframe = pframe;
         sequence = new LinkedList<>(this.macro.getSequence());
         seqList.setListData(sequence.toArray());
     }

@@ -20,13 +20,17 @@ public class MacroForm {
     public LinkedList<MacroInfo> macros = new LinkedList<>();
 
     public RunSequence sequenceRunner;
+    private JFrame frame;
 
     public MacroForm() {
         newButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String path = JOptionPane.showInputDialog("Enter a name:");
-                if (path == null || path.equals("")) {
+                if (path == null) {
+                    return;
+                }
+                if (path.equals("")) {
                     JOptionPane.showMessageDialog(mainPanel, "Invalid macro name!", "New Macro", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
@@ -48,11 +52,12 @@ public class MacroForm {
                 EditMacroForm editMac = new EditMacroForm();
                 JFrame editFrame = new JFrame("Editing macro: " + selected);
                 editFrame.setContentPane(editMac.editPanel);
-                editMac.edit(selected, editFrame);
+                editMac.edit(selected, editFrame, frame);
                 editFrame.pack();
-                editFrame.setDefaultCloseOperation(0);
+                editFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                 editFrame.setResizable(false);
                 editFrame.setVisible(true);
+                frame.setEnabled(false);
             }
         });
         deleteButton.addActionListener(new ActionListener() {
@@ -88,5 +93,9 @@ public class MacroForm {
                 statusLabel.setText("Status: Idle");
             }
         });
+    }
+
+    public void setParent(JFrame frame) {
+        this.frame = frame;
     }
 }

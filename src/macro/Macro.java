@@ -1,13 +1,12 @@
 package src.macro;
 
-import src.macro.MacroForm;
-
 import javax.swing.*;
 
 public class Macro {
-    public void Macro(){
+    public void startMacro(){
         MacroForm mac = new MacroForm();
         JFrame frame = new JFrame("Bad Macro");
+        mac.setParent(frame);
         frame.setContentPane(mac.mainPanel);
         frame.pack();
         frame.setResizable(false);
