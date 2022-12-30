@@ -141,7 +141,7 @@ public class MacroForm {
     private void readFile(File selectedFile) {
         try {
             Scanner reader = new Scanner(selectedFile);
-            MacroInfo info = new MacroInfo(selectedFile.getName());
+            MacroInfo info = new MacroInfo(selectedFile.getName().replaceFirst("[.][^.]+$", ""));
             while (reader.hasNextLine()) {
                 String seqItem = reader.nextLine();
                 SequenceItem newSeqItem = null;
@@ -156,7 +156,8 @@ public class MacroForm {
                 } else if (seqItem.startsWith("MouseDown: ")) {
                     newSeqItem = new MouseItem(Integer.parseInt(seqItem.replace("MouseDown: ", "")), Mode.DOWN);
                 } else {
-                    throw new Exception("Invalid value");
+                    JOptionPane.showMessageDialog(mainPanel, "Error occurred during importing macro!", "Import Macro", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
                 info.appendSeqItem(newSeqItem);
             }
