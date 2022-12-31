@@ -70,7 +70,7 @@ public class MacroForm {
                 if(macrosList.getSelectedIndex() == 0){
                     System.out.println(macrosList.getSelectedIndex());
                     KillKeyEdit kke = new KillKeyEdit();
-                    JFrame editFrame = new JFrame("Editing macro: \"" + selected + "\"");
+                    JFrame editFrame = new JFrame("Editing macro: \"KILLKEY");
                     editFrame.setContentPane(kke.editPanel);
                     kke.edit(selected, editFrame, frame);
                     editFrame.pack();
