@@ -35,7 +35,7 @@ The program may create a `.dll` file. It is *not* malicious, at least not to my 
 | Edit          | Edit selected macro                                                                                          |
 | Delete        | Delete selected macro (Cannot be undone)                                                                     |
 | Run           | Run selected macro                                                                                           |
-| Stop          | Terminate running macro          
+| Stop          | Terminate running macro                                                                                      |
 
 ### Editing macro
 | Element       | Usage                                                                                                                                                                                                        |
