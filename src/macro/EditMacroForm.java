@@ -229,7 +229,7 @@ public class EditMacroForm {
                     }
                     int index = seqList.getSelectedIndex();
                     seqList.setListData(sequence.toArray());
-                    seqList.setSelectedIndex((index == 0 ? sequence.size() : index) + 2);
+                    seqList.setSelectedIndex((index == -1 ? sequence.size() : index) + 2);
                     seqItem = new KeyItem(keyTap, Mode.UP);
                     break;
                 case "MouseClick":
@@ -253,7 +253,7 @@ public class EditMacroForm {
                             }
                             int index1 = seqList.getSelectedIndex();
                             seqList.setListData(sequence.toArray());
-                            seqList.setSelectedIndex((index1 == 0 ? sequence.size() : index1) + 2);
+                            seqList.setSelectedIndex((index1 == -1 ? sequence.size() : index1) + 2);
                             seqItem = new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.UP);
                             break;
                         case "Button2":
@@ -266,7 +266,7 @@ public class EditMacroForm {
                             }
                             int index2 = seqList.getSelectedIndex();
                             seqList.setListData(sequence.toArray());
-                            seqList.setSelectedIndex((index2 == 0 ? sequence.size() : index2) + 2);
+                            seqList.setSelectedIndex((index2 == -1 ? sequence.size() : index2) + 2);
                             seqItem = new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.UP);
                             break;
                         case "Button3":
@@ -279,7 +279,7 @@ public class EditMacroForm {
                             }
                             int index3 = seqList.getSelectedIndex();
                             seqList.setListData(sequence.toArray());
-                            seqList.setSelectedIndex((index3 == 0 ? sequence.size() : index3) + 2);
+                            seqList.setSelectedIndex((index3 == -1 ? sequence.size() : index3) + 2);
                             seqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.UP);
                             break;
                     }
