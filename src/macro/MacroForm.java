@@ -5,6 +5,7 @@ import org.jnativehook.NativeHookException;
 import src.macro.seqitems.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +29,7 @@ public class MacroForm {
     public JPanel mainPanel;
     private JButton exportButton;
     private JLabel statusLabel;
+    private JButton recordButton;
 
     public static final LinkedList<MacroInfo> macros = new LinkedList<>();
 
@@ -35,6 +37,7 @@ public class MacroForm {
     private JFrame frame;
 
     public static boolean isRunning = false;
+    public static boolean recording = false;
 
     void setStatus(String status) {
         statusLabel.setText(status);
@@ -67,7 +70,7 @@ public class MacroForm {
                     return;
                 }
 
-                if(macrosList.getSelectedIndex() == 0){
+                if (macrosList.getSelectedIndex() == 0) {
                     System.out.println(macrosList.getSelectedIndex());
                     KillKeyEdit kke = new KillKeyEdit();
                     JFrame editFrame = new JFrame("Editing macro: \"KILLKEY\"");
@@ -81,7 +84,7 @@ public class MacroForm {
                     editFrame.setLocationRelativeTo(mainPanel);
                     editFrame.setVisible(true);
                     frame.setEnabled(false);
-                }else {
+                } else {
                     EditMacroForm editMac = new EditMacroForm();
                     JFrame editFrame = new JFrame("Editing macro: \"" + selected + "\"");
                     editFrame.setContentPane(editMac.editPanel);
@@ -162,7 +165,33 @@ public class MacroForm {
                 runButton.setEnabled(macrosList.getSelectedIndex() != 0);
             }
         });
-        macrosList.addMouseListener(new MouseAdapter() {
+        recordButton.addActionListener(e -> {
+            if (recording) {
+                recording = false;
+                String path;
+                while (true) {
+                    path = JOptionPane.showInputDialog("Enter a name:");
+                    if (path == null) {
+                        recordButton.setText("Start Recording");
+                        KeyBind.sequence.clear();
+                        return;
+                    }
+                    if (path.equals("")) {
+                        JOptionPane.showMessageDialog(mainPanel, "Invalid macro name!", "New Macro", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        break;
+                    }
+                }
+                MacroInfo info = new MacroInfo(path);
+                info.setSequence(new LinkedList<>(KeyBind.sequence));
+                macros.add(info);
+                macrosList.setListData(macros.toArray());
+                recordButton.setText("Start Recording");
+                KeyBind.sequence.clear();
+            } else {
+                recording = true;
+                recordButton.setText("Stop Recording");
+            }
         });
     }
 
@@ -270,6 +299,9 @@ public class MacroForm {
             System.exit(1);
         }
         GlobalScreen.addNativeKeyListener(new KeyBind());
+        GlobalScreen.addNativeMouseListener(new KeyBind());
+        GlobalScreen.addNativeMouseMotionListener(new KeyBind());
+        GlobalScreen.addNativeMouseWheelListener(new KeyBind());
 
         MacroInfo killkey = new MacroInfo("<html><font color=red><b>KILLKEY</b></font></html>");
         killkey.setBind(119);

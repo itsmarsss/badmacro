@@ -39,6 +39,7 @@ public class RunSequence extends Thread {
         }
         LinkedList<SequenceItem> sequence = new LinkedList<>(seq);
         while (!sequence.isEmpty()) {
+            System.out.println(sequence.size());
             SequenceItem seqItem = sequence.pop();
             String name = seqItem.toString();
             if (name.startsWith("Delay: ")) {
@@ -59,6 +60,8 @@ public class RunSequence extends Thread {
                 ex.mouseMove(seqItem.getValues());
             } else if (name.startsWith("MouseScroll: ")) {
                 ex.mouseScroll(seqItem.getValue());
+            } else {
+                System.out.println("?");
             }
         }
     }
