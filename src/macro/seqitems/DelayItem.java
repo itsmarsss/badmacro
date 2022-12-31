@@ -1,6 +1,5 @@
 package src.macro.seqitems;
 
-import src.macro.Mode;
 import src.macro.SequenceItem;
 
 public class DelayItem extends SequenceItem {
