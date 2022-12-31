@@ -1,7 +1,6 @@
 package src.macro;
 
 import javax.swing.*;
-import javax.swing.event.AncestorListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
