@@ -1,7 +1,7 @@
 package src.macro;
 
-import com.github.kwhat.jnativehook.GlobalScreen;
-import com.github.kwhat.jnativehook.NativeHookException;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 import src.macro.seqitems.*;
 
 import javax.swing.*;
