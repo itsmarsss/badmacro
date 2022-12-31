@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.logging.LogManager;
 
 public class MacroForm {
     private JList macrosList;
@@ -240,6 +241,7 @@ public class MacroForm {
     public void setParent(JFrame frame) {
         this.frame = frame;
         try {
+            LogManager.getLogManager().reset();
             GlobalScreen.registerNativeHook();
         } catch (NativeHookException ex) {
             System.err.println("There was a problem registering the native hook.");

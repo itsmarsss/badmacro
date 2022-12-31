@@ -12,21 +12,15 @@ public class RunSequence extends Thread {
 
     @Override
     public void run() {
-
-        System.out.println(macro);
-
         LinkedList<SequenceItem> sequence = new LinkedList<>(macro.getSequence());
         Mode runType = macro.getRunType();
         if (runType == Mode.SINGLE) {
-            System.out.println("Single");
             start(sequence);
         } else if (runType == Mode.REPEAT) {
-            System.out.println("Repeat");
             for (int i = 0; i < macro.getRunIter(); i++) {
                 start(sequence);
             }
         } else if (runType == Mode.REPEATUNTILSTOPPED) {
-            System.out.println("RepeatUntilStopped");
             while (true) {
                 start(sequence);
             }
@@ -53,27 +47,18 @@ public class RunSequence extends Thread {
                 while(System.currentTimeMillis()-start < sleep) {
                     System.out.print("");
                 }
-                System.out.println("sleep");
             } else if (name.startsWith("KeyUp: ")) {
                 ex.keyRelease(seqItem.getValue());
-                System.out.println("keyup");
             } else if (name.startsWith("KeyDown: ")) {
                 ex.keyPress(seqItem.getValue());
-                System.out.println("keydown");
             } else if (name.startsWith("MouseUp: ")) {
                 ex.mouseUp(seqItem.getValue());
-                System.out.println("mouseup");
             } else if (name.startsWith("MouseDown: ")) {
                 ex.mouseDown(seqItem.getValue());
-                System.out.println("mousedown");
             } else if (name.startsWith("MouseMove: ")) {
                 ex.mouseMove(seqItem.getValues());
-                System.out.println("mousemove");
             } else if (name.startsWith("MouseScroll: ")) {
                 ex.mouseScroll(seqItem.getValue());
-                System.out.println("mousescroll");
-            } else {
-                System.out.println("???");
             }
         }
     }
