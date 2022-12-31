@@ -78,6 +78,7 @@ public class MacroForm {
                     editFrame.setIconImage(icon.getImage());
                     editFrame.setResizable(false);
                     editFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                    editFrame.setLocationRelativeTo(mainPanel);
                     editFrame.setVisible(true);
                     frame.setEnabled(false);
                 }else {
@@ -90,6 +91,7 @@ public class MacroForm {
                     editFrame.setIconImage(icon.getImage());
                     editFrame.setResizable(false);
                     editFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                    editFrame.setLocationRelativeTo(mainPanel);
                     editFrame.setVisible(true);
                     frame.setEnabled(false);
                 }
@@ -155,10 +157,12 @@ public class MacroForm {
         });
         macrosList.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 deleteButton.setEnabled(macrosList.getSelectedIndex() != 0);
                 runButton.setEnabled(macrosList.getSelectedIndex() != 0);
             }
+        });
+        macrosList.addMouseListener(new MouseAdapter() {
         });
     }
 
