@@ -14,7 +14,6 @@ public class Main {
     private static void setLooksAndFeels() {
         try {
             String className = UIManager.getSystemLookAndFeelClassName();
-            System.out.println("className = " + className);
             UIManager.setLookAndFeel(className);
         } catch (Exception e) {
             e.printStackTrace();
