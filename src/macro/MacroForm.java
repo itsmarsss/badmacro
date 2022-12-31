@@ -67,17 +67,32 @@ public class MacroForm {
                     return;
                 }
 
-                EditMacroForm editMac = new EditMacroForm();
-                JFrame editFrame = new JFrame("Editing macro: \"" + selected + "\"");
-                editFrame.setContentPane(editMac.editPanel);
-                editMac.edit(selected, editFrame, frame);
-                editFrame.pack();
-                ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("src/assets/icon.png")));
-                editFrame.setIconImage(icon.getImage());
-                editFrame.setResizable(false);
-                editFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-                editFrame.setVisible(true);
-                frame.setEnabled(false);
+                if(macrosList.getSelectedIndex() == 0){
+                    System.out.println(macrosList.getSelectedIndex());
+                    KillKeyEdit kke = new KillKeyEdit();
+                    JFrame editFrame = new JFrame("Editing macro: \"" + selected + "\"");
+                    editFrame.setContentPane(kke.editPanel);
+                    kke.edit(selected, editFrame, frame);
+                    editFrame.pack();
+                    ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("src/assets/icon.png")));
+                    editFrame.setIconImage(icon.getImage());
+                    editFrame.setResizable(false);
+                    editFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                    editFrame.setVisible(true);
+                    frame.setEnabled(false);
+                }else {
+                    EditMacroForm editMac = new EditMacroForm();
+                    JFrame editFrame = new JFrame("Editing macro: \"" + selected + "\"");
+                    editFrame.setContentPane(editMac.editPanel);
+                    editMac.edit(selected, editFrame, frame);
+                    editFrame.pack();
+                    ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("src/assets/icon.png")));
+                    editFrame.setIconImage(icon.getImage());
+                    editFrame.setResizable(false);
+                    editFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                    editFrame.setVisible(true);
+                    frame.setEnabled(false);
+                }
             }
         });
         deleteButton.addActionListener(e -> {
