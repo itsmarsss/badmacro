@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src="/assets/icon.png" alt="Icon" width="100" height="100">
+<img src="/src/assets/icon.png" alt="Icon" width="100" height="100">
 <br>
 BadMacro
 <br>
@@ -56,6 +56,8 @@ The program may create a `.dll` file. It is *not* malicious, at least not to my 
 ### Special text
 BadMacro supports simple HTML. To use it, you must surround all HTML elements with `<html>text<\html>`. 
 #### Samples
+:warning: Colors are not showing in GitHub :warning:
+
 | Type        | Syntax                                                    | Display                                                     |
 |-------------|-----------------------------------------------------------|-------------------------------------------------------------|
 | Colored     | `<html><font color=blue>LOL spam</font><html>`            | <span style="color: blue;">LOL spam</span>                  |
