@@ -34,7 +34,7 @@ public class EditMacroForm {
 
     public EditMacroForm() {
         insertButton.addActionListener(e -> {
-            String[] choices = {"Delay", "KeyUp", "KeyDown", "MouseUp", "MouseDown", "MouseMove", "MouseScroll"};
+            String[] choices = {"Delay", "KeyUp", "KeyDown", "MouseUp", "MouseDown", "MouseMove", "MouseScroll", "KeyTap", "MouseClick"};
             String input = (String) JOptionPane.showInputDialog(editPanel, "Choose a sequence type",
                     "Sequence Item Type", JOptionPane.QUESTION_MESSAGE, null,
                     choices,
@@ -198,15 +198,101 @@ public class EditMacroForm {
                     }
                     seqItem = new ScrollItem(ticks);
                     break;
+                case "KeyTap":
+                    int keyTap;
+                    try {
+                        String skeyTap = (String) JOptionPane.showInputDialog(editPanel, "Input key code",
+                                "KeyTap Key", JOptionPane.QUESTION_MESSAGE, null,
+                                null, null);
+                        if (skeyTap == null) {
+                            return;
+                        }
+                        keyTap = Integer.parseInt(skeyTap);
+                    } catch (Exception ex) {
+                        keyTap = -1;
+                    }
+                    if (KeyEvent.getKeyText(keyTap).contains("Unknown keyCode: ")) {
+                        keyTap = -1;
+                    }
+                    if (keyTap == -1) {
+                        JOptionPane.showMessageDialog(editPanel, "Invalid input", "Invalid keycode", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+
+
+                    if (seqList.getSelectedIndex() == -1 || seqList.getSelectedIndex() == sequence.size() - 1) {
+                        sequence.add(new KeyItem(keyTap, Mode.DOWN));
+                        sequence.add(new DelayItem(10));
+                    } else {
+                        sequence.add(seqList.getSelectedIndex() + 1, new KeyItem(keyTap, Mode.DOWN));
+                        sequence.add(seqList.getSelectedIndex() + 2, new DelayItem(10));
+                    }
+                    int index = seqList.getSelectedIndex();
+                    seqList.setListData(sequence.toArray());
+                    seqList.setSelectedIndex((index == 0 ? sequence.size() : index) + 2);
+                    seqItem = new KeyItem(keyTap, Mode.UP);
+                    break;
+                case "MouseClick":
+                    String[] mcchoices = {"Button1", "Button2", "Button3"};
+                    String mcinput = (String) JOptionPane.showInputDialog(editPanel, "Choose a button type",
+                            "Button Item Type", JOptionPane.QUESTION_MESSAGE, null,
+                            mcchoices,
+                            mcchoices[0]);
+
+                    if (mcinput == null) {
+                        return;
+                    }
+                    switch (mcinput) {
+                        case "Button1":
+                            if (seqList.getSelectedIndex() == -1 || seqList.getSelectedIndex() == sequence.size() - 1) {
+                                sequence.add(new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.DOWN));
+                                sequence.add(new DelayItem(10));
+                            } else {
+                                sequence.add(seqList.getSelectedIndex() + 1, new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.DOWN));
+                                sequence.add(seqList.getSelectedIndex() + 2, new DelayItem(10));
+                            }
+                            int index1 = seqList.getSelectedIndex();
+                            seqList.setListData(sequence.toArray());
+                            seqList.setSelectedIndex((index1 == 0 ? sequence.size() : index1) + 2);
+                            seqItem = new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.UP);
+                            break;
+                        case "Button2":
+                            if (seqList.getSelectedIndex() == -1 || seqList.getSelectedIndex() == sequence.size() - 1) {
+                                sequence.add(new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.DOWN));
+                                sequence.add(new DelayItem(10));
+                            } else {
+                                sequence.add(seqList.getSelectedIndex() + 1, new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.DOWN));
+                                sequence.add(seqList.getSelectedIndex() + 2, new DelayItem(10));
+                            }
+                            int index2 = seqList.getSelectedIndex();
+                            seqList.setListData(sequence.toArray());
+                            seqList.setSelectedIndex((index2 == 0 ? sequence.size() : index2) + 2);
+                            seqItem = new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.UP);
+                            break;
+                        case "Button3":
+                            if (seqList.getSelectedIndex() == -1 || seqList.getSelectedIndex() == sequence.size() - 1) {
+                                sequence.add(new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN));
+                                sequence.add(new DelayItem(10));
+                            } else {
+                                sequence.add(seqList.getSelectedIndex() + 1, new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN));
+                                sequence.add(seqList.getSelectedIndex() + 2, new DelayItem(10));
+                            }
+                            int index3 = seqList.getSelectedIndex();
+                            seqList.setListData(sequence.toArray());
+                            seqList.setSelectedIndex((index3 == 0 ? sequence.size() : index3) + 2);
+                            seqItem = new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.UP);
+                            break;
+                    }
+                    break;
                 default:
                     JOptionPane.showMessageDialog(editPanel, "Invalid sequence type", "Add Sequence Item", JOptionPane.WARNING_MESSAGE);
                     return;
             }
 
-            if (seqList.getSelectedIndex() == -1) {
+            if (seqList.getSelectedIndex() == -1 || seqList.getSelectedIndex() == sequence.size() - 1) {
                 sequence.add(seqItem);
             } else {
-                sequence.add(seqList.getSelectedIndex(), seqItem);
+                sequence.add(seqList.getSelectedIndex() + 1, seqItem);
             }
             seqList.setListData(sequence.toArray());
         });
