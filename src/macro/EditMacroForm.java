@@ -452,7 +452,6 @@ public class EditMacroForm {
             if (singleRadioButton.isSelected()) {
                 repeatRadioButton.setSelected(false);
                 repeatUntilStoppedRadioButton.setSelected(false);
-                iterationTextField.setEnabled(false);
                 plusButton.setEnabled(false);
                 minusButton.setEnabled(false);
                 macro.setRun(Mode.SINGLE, 0);
@@ -462,7 +461,6 @@ public class EditMacroForm {
             if (repeatRadioButton.isSelected()) {
                 singleRadioButton.setSelected(false);
                 repeatUntilStoppedRadioButton.setSelected(false);
-                iterationTextField.setEnabled(true);
                 plusButton.setEnabled(true);
                 minusButton.setEnabled(true);
                 macro.setRun(Mode.REPEAT, 0);
@@ -472,7 +470,6 @@ public class EditMacroForm {
             if (repeatUntilStoppedRadioButton.isSelected()) {
                 repeatRadioButton.setSelected(false);
                 singleRadioButton.setSelected(false);
-                iterationTextField.setEnabled(false);
                 plusButton.setEnabled(false);
                 minusButton.setEnabled(false);
                 macro.setRun(Mode.REPEATUNTILSTOPPED, 0);
@@ -512,6 +509,8 @@ public class EditMacroForm {
             singleRadioButton.setSelected(false);
             repeatUntilStoppedRadioButton.setSelected(false);
             repeatRadioButton.setSelected(true);
+            plusButton.setEnabled(true);
+            minusButton.setEnabled(true);
         }
         sequence = new LinkedList<>(this.macro.getSequence());
         seqList.setListData(sequence.toArray());
