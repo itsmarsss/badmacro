@@ -45,7 +45,6 @@ public class RunSequence extends Thread {
                 int sleep = seqItem.getValue();
                 long start = System.currentTimeMillis();
                 while (System.currentTimeMillis() - start < sleep) {
-                    System.out.print("");
                 }
             } else if (name.startsWith("KeyUp: ")) {
                 ex.keyRelease(seqItem.getValue());
@@ -59,8 +58,6 @@ public class RunSequence extends Thread {
                 ex.mouseMove(seqItem.getValues());
             } else if (name.startsWith("MouseScroll: ")) {
                 ex.mouseScroll(seqItem.getValue());
-            } else {
-                System.out.println("?");
             }
         }
     }
