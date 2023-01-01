@@ -44,7 +44,7 @@ public class RunSequence extends Thread {
             if (name.startsWith("Delay: ")) {
                 int sleep = seqItem.getValue();
                 long start = System.currentTimeMillis();
-                while(System.currentTimeMillis()-start < sleep) {
+                while (System.currentTimeMillis() - start < sleep) {
                     System.out.print("");
                 }
             } else if (name.startsWith("KeyUp: ")) {

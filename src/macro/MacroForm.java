@@ -196,9 +196,10 @@ public class MacroForm {
 
     public static LinkedList<SequenceItem> tempSequence = new LinkedList<>();
     private static long lastItem = System.nanoTime();
+
     static void addDelay() {
         if (tempSequence.size() != 0) {
-            tempSequence.add(new DelayItem(new Long((System.nanoTime() - lastItem)/1000000).intValue()));
+            tempSequence.add(new DelayItem(new Long((System.nanoTime() - lastItem) / 1000000).intValue()));
         }
         lastItem = System.nanoTime();
     }

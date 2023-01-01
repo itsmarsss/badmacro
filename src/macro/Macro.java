@@ -8,7 +8,7 @@ public class Macro {
     public static final MacroForm mac = new MacroForm();
 
 
-    public void startMacro(){
+    public void startMacro() {
         JFrame frame = new JFrame("Bad Macro");
         mac.setParent(frame);
         frame.setContentPane(mac.mainPanel);
