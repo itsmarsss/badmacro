@@ -280,6 +280,9 @@ BadMacro supports simple HTML. To use it, you must surround all HTML elements wi
 | 65488 | Find                      |
 | 65489 | Cut                       |
 
+## NOTICE
+> :warning: :warning: :warning: **WARNING:** This project is no longer maintained; there may be bugs. Feel free to fork this repository, pull requests *may* be accepted. :warning: :warning: :warning:
+
 <!--## Video
 <p align="center">Making of the program: https://www.youtube.com/watch?v=-sUVFuqVBdU</p>
 
