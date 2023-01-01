@@ -24,7 +24,6 @@ public class KeyBind implements NativeKeyListener, NativeMouseListener, NativeMo
             MacroForm.addDelay();
             MacroForm.tempSequence.add(new KeyItem(getKey(e), Mode.DOWN));
         }
-        System.out.println(e.getKeyCode());
     }
 
 
