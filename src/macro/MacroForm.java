@@ -195,13 +195,12 @@ public class MacroForm {
     }
 
     public static LinkedList<SequenceItem> tempSequence = new LinkedList<>();
-    private static long lastItem;
+    private static long lastItem = System.nanoTime();
     static void addDelay() {
         if (tempSequence.size() != 0) {
-            System.out.println(lastItem);
             tempSequence.add(new DelayItem(new Long((System.nanoTime() - lastItem)/1000000).intValue()));
-            lastItem = System.nanoTime();
         }
+        lastItem = System.nanoTime();
     }
 
     private void readFile(File selectedFile) {
