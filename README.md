@@ -5,9 +5,9 @@ BadMacro
 <br>
 </h1>
 
-<!--## NOTICE
+## NOTICE
 > :warning: :warning: :warning: **WARNING:** This project is no longer maintained; there may be bugs. Feel free to fork this repository, pull requests *may* be accepted. :warning: :warning: :warning:
--->
+
 ## What is BadMacro
 BadMacro is a macro. Literally. [Search what a macro is...](https://www.google.com/search?q=what+is+a+computer+macro)
 
