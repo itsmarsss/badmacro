@@ -71,7 +71,6 @@ public class MacroForm {
                 }
 
                 if (macrosList.getSelectedIndex() == 0) {
-                    System.out.println(macrosList.getSelectedIndex());
                     KillKeyEdit kke = new KillKeyEdit();
                     JFrame editFrame = new JFrame("Editing macro: \"KILLKEY\"");
                     editFrame.setContentPane(kke.editPanel);
@@ -173,7 +172,7 @@ public class MacroForm {
                     path = JOptionPane.showInputDialog("Enter a name:");
                     if (path == null) {
                         recordButton.setText("Start Recording");
-                        KeyBind.sequence.clear();
+                        tempSequence.clear();
                         return;
                     }
                     if (path.equals("")) {
@@ -183,16 +182,26 @@ public class MacroForm {
                     }
                 }
                 MacroInfo info = new MacroInfo(path);
-                info.setSequence(new LinkedList<>(KeyBind.sequence));
+                info.setSequence(new LinkedList<>(tempSequence));
                 macros.add(info);
                 macrosList.setListData(macros.toArray());
                 recordButton.setText("Start Recording");
-                KeyBind.sequence.clear();
+                tempSequence.clear();
             } else {
                 recording = true;
                 recordButton.setText("Stop Recording");
             }
         });
+    }
+
+    public static LinkedList<SequenceItem> tempSequence = new LinkedList<>();
+    private static long lastItem;
+    static void addDelay() {
+        if (tempSequence.size() != 0) {
+            System.out.println(lastItem);
+            tempSequence.add(new DelayItem(new Long((System.nanoTime() - lastItem)/1000000).intValue()));
+            lastItem = System.nanoTime();
+        }
     }
 
     private void readFile(File selectedFile) {

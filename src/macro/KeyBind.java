@@ -14,17 +14,12 @@ import java.util.LinkedList;
 
 public class KeyBind implements NativeKeyListener, NativeMouseListener, NativeMouseMotionListener, NativeMouseWheelListener {
 
-    public static LinkedList<SequenceItem> sequence = new LinkedList<>();
-    public long lastItem = System.currentTimeMillis();
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent e) {
         if (MacroForm.recording) {
-            if (sequence.size() != 0) {
-                sequence.add(new DelayItem((int) (System.currentTimeMillis() - lastItem)));
-            }
-            lastItem = System.currentTimeMillis();
-            sequence.add(new KeyItem(e.getRawCode(), Mode.DOWN));
+            MacroForm.addDelay();
+            MacroForm.tempSequence.add(new KeyItem(e.getRawCode(), Mode.DOWN));
         }
         if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
             try {
@@ -38,11 +33,8 @@ public class KeyBind implements NativeKeyListener, NativeMouseListener, NativeMo
     @Override
     public void nativeKeyReleased(NativeKeyEvent e) {
         if (MacroForm.recording) {
-            if (sequence.size() != 0) {
-                sequence.add(new DelayItem((int) (System.currentTimeMillis() - lastItem)));
-            }
-            lastItem = System.currentTimeMillis();
-            sequence.add(new KeyItem(e.getRawCode(), Mode.UP));
+            MacroForm.addDelay();
+            MacroForm.tempSequence.add(new KeyItem(e.getRawCode(), Mode.UP));
         }
         if (KeyEvent.getKeyText(MacroForm.macros.get(0).getBind()).equals(NativeKeyEvent.getKeyText(e.getKeyCode()))) {
             if (MacroForm.sequenceRunner != null) {
@@ -86,16 +78,13 @@ public class KeyBind implements NativeKeyListener, NativeMouseListener, NativeMo
     @Override
     public void nativeMousePressed(NativeMouseEvent e) {
         if (MacroForm.recording) {
-            if (sequence.size() != 0) {
-                sequence.add(new DelayItem((int) (System.currentTimeMillis() - lastItem)));
-            }
-            lastItem = System.currentTimeMillis();
+            MacroForm.addDelay();
             if (e.getButton() == 1) {
-                sequence.add(new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.DOWN));
+                MacroForm.tempSequence.add(new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.DOWN));
             } else if (e.getButton() == 2) {
-                sequence.add(new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.DOWN));
+                MacroForm.tempSequence.add(new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.DOWN));
             } else if (e.getButton() == 3) {
-                sequence.add(new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN));
+                MacroForm.tempSequence.add(new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.DOWN));
             }
         }
     }
@@ -103,18 +92,13 @@ public class KeyBind implements NativeKeyListener, NativeMouseListener, NativeMo
     @Override
     public void nativeMouseReleased(NativeMouseEvent e) {
         if (MacroForm.recording) {
-            if (sequence.size() != 0) {
-                sequence.add(new DelayItem((int) (System.currentTimeMillis() - lastItem)));
-
-                System.out.println((System.currentTimeMillis() - lastItem));
-            }
-            lastItem = System.currentTimeMillis();
+            MacroForm.addDelay();
             if (e.getButton() == 1) {
-                sequence.add(new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.UP));
+                MacroForm.tempSequence.add(new MouseItem(MouseEvent.BUTTON1_DOWN_MASK, Mode.UP));
             } else if (e.getButton() == 2) {
-                sequence.add(new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.UP));
+                MacroForm.tempSequence.add(new MouseItem(MouseEvent.BUTTON2_DOWN_MASK, Mode.UP));
             } else if (e.getButton() == 3) {
-                sequence.add(new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.UP));
+                MacroForm.tempSequence.add(new MouseItem(MouseEvent.BUTTON3_DOWN_MASK, Mode.UP));
             }
         }
     }
@@ -122,22 +106,16 @@ public class KeyBind implements NativeKeyListener, NativeMouseListener, NativeMo
     @Override
     public void nativeMouseMoved(NativeMouseEvent e) {
         if (MacroForm.recording) {
-            if (sequence.size() != 0) {
-                sequence.add(new DelayItem((int) (System.currentTimeMillis() - lastItem)));
-            }
-            lastItem = System.currentTimeMillis();
-            sequence.add(new MoveItem(e.getX(), e.getY()));
+            MacroForm.addDelay();
+            MacroForm.tempSequence.add(new MoveItem(e.getX(), e.getY()));
         }
     }
 
     @Override
     public void nativeMouseWheelMoved(NativeMouseWheelEvent e) {
         if (MacroForm.recording) {
-            if (sequence.size() != 0) {
-                sequence.add(new DelayItem((int) (System.currentTimeMillis() - lastItem)));
-            }
-            lastItem = System.currentTimeMillis();
-            sequence.add(new ScrollItem(e.getWheelRotation()));
+            MacroForm.addDelay();
+            MacroForm.tempSequence.add(new ScrollItem(e.getWheelRotation()));
         }
     }
 
