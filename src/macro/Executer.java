@@ -1,6 +1,7 @@
 package src.macro;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public class Executer {
     public final Robot rb = new Robot();
@@ -23,7 +24,13 @@ public class Executer {
     }
 
     public void mouseMove(int[] coords) {
-        rb.mouseMove(coords[0], coords[1]);
+        GraphicsConfiguration asdf = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+
+        AffineTransform asfd2 = asdf.getDefaultTransform();
+
+        double scaleX = asfd2.getScaleX();
+        double scaleY = asfd2.getScaleY();
+        rb.mouseMove((int) (coords[0]/scaleX), (int) (coords[1]/scaleY));
     }
 
     public void mouseScroll(int value) {

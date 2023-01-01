@@ -39,7 +39,6 @@ public class RunSequence extends Thread {
         }
         LinkedList<SequenceItem> sequence = new LinkedList<>(seq);
         while (!sequence.isEmpty()) {
-            System.out.println(sequence.size());
             SequenceItem seqItem = sequence.pop();
             String name = seqItem.toString();
             if (name.startsWith("Delay: ")) {
