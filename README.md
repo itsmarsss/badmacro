@@ -58,7 +58,7 @@ The program may create a `.dll` file. It is *not* malicious, at least not to my 
 | Run Type      | 1. Single - Runs only once<br/>2. Repeat until stopped - Runs until terminated by `KILLKEY` macro or `STOP` button<br/>3. Repeat - Repeats a certain amount of times (can be edited in the field next to it) |
 
 ### Special text
-BadMacro supports simple HTML. To use it, you must surround all HTML elements with `<html>text<\html>`. 
+BadMacro supports simple HTML. To use it, you must surround all HTML elements with `<html>text</html>`. 
 #### Samples
 :warning: Colors are not showing in GitHub :warning:
 
