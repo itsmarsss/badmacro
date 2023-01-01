@@ -27,15 +27,19 @@ The program may create a `.dll` file. It is *not* malicious, at least not to my 
 
 ## Documentation
 ### Bad macro home
-| Element       | Explanation                                                                                                  |
-|---------------|--------------------------------------------------------------------------------------------------------------|
-| Macros List   | A list of all macros, the first one ("KILLKEY") cannot be removed, it is used to terminate the running macro |
-| New           | Create a new macro, enter a name for the macro on popup                                                      |
-| Export/Import | Export or Import a macro in the form of a `.txt` file                                                        |
-| Edit          | Edit selected macro                                                                                          |
-| Delete        | Delete selected macro (Cannot be undone)                                                                     |
-| Run           | Run selected macro                                                                                           |
-| Stop          | Terminate running macro                                                                                      |
+| Element           | Explanation                                                                                                  |
+|-------------------|--------------------------------------------------------------------------------------------------------------|
+| Macros List       | A list of all macros, the first one ("KILLKEY") cannot be removed, it is used to terminate the running macro |
+| New               | Create a new macro, enter a name for the macro on popup                                                      |
+| Export/Import     | Export or Import a macro in the form of a `.txt` file                                                        |
+| Edit              | Edit selected macro                                                                                          |
+| Delete            | Delete selected macro (Cannot be undone)                                                                     |
+| Start/Stop Record | Record all mouse and key actions (May need to trim the beginning/ending)                                     |
+| Run               | Run selected macro                                                                                           |
+| Stop              | Terminate running macro                                                                                      |
+
+### Recordings
+:warning: Trying to edit a recorded macro is discouraged, recorded macros are accurate and extremely long. Trimming the beginning and ending should be sufficient for usage. :warning:
 
 ### Editing macro
 | Element       | Explanation                                                                                                                                                                                                        |
