@@ -25,6 +25,9 @@ Download the `.exe` if you're running Windows, otherwise download the `.jar`. Bo
 The program may create a `.dll` file. It is *not* malicious, at least not to my knowledge. This is created by a library used to register key binds called [JNativeHook](https://github.com/kwhat/jnativehook).  
 `You can find this file in either the running directory or user temp folder.`
 
+### Program not detecting anything
+Unfortunately I have no clue how to resolve this issue in code. But if you make a visit to `C:\Users\<user>\AppData\Local\Temp` you should see a bunch of `JNativeHook-<string of text>.dll`. Delete all of those and the program should work. 
+
 ## Documentation
 ### Bad macro home
 | Element           | Explanation                                                                                                  |
