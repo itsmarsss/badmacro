@@ -66,6 +66,7 @@ public class KeyBind implements NativeKeyListener, NativeMouseListener, NativeMo
                 } else {
                     Macro.setStatus("Status: Running \"" + macro + "\"");
                 }
+                break;
             }
             i++;
         }
